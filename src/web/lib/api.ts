@@ -39,9 +39,11 @@ async function toError(res: Response): Promise<ApiRequestError> {
 }
 
 async function request<T extends z.ZodType>(path: string, init: RequestInit, schema: T): Promise<z.infer<T>> {
+  const headers = new Headers(init.headers);
+  for (const [name, value] of Object.entries(await authHeaders())) headers.set(name, value);
   let res: Response;
   try {
-    res = await fetch(path, { ...init, headers: { ...(await authHeaders()), ...init.headers } });
+    res = await fetch(path, { ...init, headers });
   } catch (err) {
     if (err instanceof DOMException && err.name === 'AbortError') throw err;
     throw new ApiRequestError('No internet connection. Please check your network and try again.', 'network', 0);

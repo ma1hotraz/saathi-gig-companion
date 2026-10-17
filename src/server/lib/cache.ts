@@ -1,7 +1,7 @@
 import { LRUCache } from 'lru-cache';
 
 /** Small typed TTL cache used for expensive, user-independent AI answers and auth lookups. */
-export function createCache<V extends {}>(options: { max: number; ttlMs: number }) {
+export function createCache<V extends object>(options: { max: number; ttlMs: number }) {
   const cache = new LRUCache<string, V>({ max: options.max, ttl: options.ttlMs });
   return {
     get: (key: string): V | undefined => cache.get(key),

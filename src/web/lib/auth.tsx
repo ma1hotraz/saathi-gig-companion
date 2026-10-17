@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user: session?.user ?? null,
       loading,
-      isGuest: session?.user?.is_anonymous ?? false,
+      isGuest: session?.user.is_anonymous ?? false,
       /** Each action resolves to null on success or a translation key describing the error. */
       signIn: async (email, password) => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });

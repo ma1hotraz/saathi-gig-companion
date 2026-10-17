@@ -26,5 +26,16 @@ export default tseslint.config(
     rules: { ...jsxA11y.flatConfigs.recommended.rules, ...reactHooks.configs.recommended.rules },
   },
   { files: ['src/server/**/*.ts', 'scripts/**/*.ts', 'tests/**/*.ts'], languageOptions: { globals: globals.node } },
+  {
+    files: ['scripts/**/*.ts', 'tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
   { files: ['tests/**/*.ts'], rules: { '@typescript-eslint/no-non-null-assertion': 'off', '@typescript-eslint/no-unsafe-assignment': 'off', '@typescript-eslint/no-unsafe-member-access': 'off' } },
 );

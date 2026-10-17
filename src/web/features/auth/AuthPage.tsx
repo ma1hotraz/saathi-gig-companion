@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { Navigate } from 'react-router';
 import { Siren } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
@@ -24,7 +24,7 @@ export default function AuthPage() {
     setBusy(false);
   }
 
-  function submit(e: FormEvent) {
+  function submit(e: SyntheticEvent) {
     e.preventDefault();
     void run(() => (mode === 'signin' ? signIn(email.trim(), password) : signUp(email.trim(), password)));
   }

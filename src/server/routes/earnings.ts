@@ -12,7 +12,8 @@ import { earningsExtractPrompt, insightsPrompt } from '../ai/prompts/features.js
 import { untrusted } from '../ai/prompts/common.js';
 import { HttpError } from '../lib/errors.js';
 import { documentUpload, verifyUpload } from '../middleware/upload.js';
-import { parseBody, parseOrThrow } from '../middleware/validate.js';
+import { bodyField, parseBody, parseOrThrow } from '../middleware/validate.js';
+import { userOf } from '../middleware/auth.js';
 import type { Deps } from '../app.js';
 
 const today = (): string => new Date().toISOString().slice(0, 10);
@@ -42,7 +43,7 @@ export function earningsRoutes({ ai, loadEarnings }: Deps): Router {
 
   // Voice note or payout screenshot; the kind is decided from the file's real content.
   router.post('/extract-file', documentUpload.single('file'), async (req, res) => {
-    const language = parseOrThrow(languageSchema, req.body?.language);
+    const language = parseOrThrow(languageSchema, bodyField(req, 'language'));
     let file;
     let part: AiPart;
     let source: EarningInput['source'];
@@ -65,7 +66,7 @@ export function earningsRoutes({ ai, loadEarnings }: Deps): Router {
 
   router.post('/insights', async (req, res) => {
     const { language } = parseBody(insightsRequestSchema, req);
-    const entries = await loadEarnings(req.user!, 30);
+    const entries = await loadEarnings(userOf(req), 30);
     if (entries.length === 0) {
       throw new HttpError('bad_request', 'Add some earnings first, then ask for insights.');
     }

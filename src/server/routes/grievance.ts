@@ -19,7 +19,7 @@ export function grievanceRoutes({ ai }: Deps): Router {
       `Worker's account of what happened:\n${untrusted(b.story)}`,
     ].join('\n');
     const { data } = await ai.generateJson(
-      { system: grievancePrompt(b.language, b.letter_language), input: facts, thinking: 'medium' },
+      { system: grievancePrompt(b.language, b.letter_language, new Date().toISOString().slice(0, 10)), input: facts, thinking: 'medium' },
       grievanceResultSchema,
     );
     res.json(data);

@@ -4,7 +4,7 @@ import { languageSchema } from '../../shared/domain.js';
 import { untrusted } from '../ai/prompts/common.js';
 import { documentAskPrompt, documentPrompt } from '../ai/prompts/features.js';
 import { documentUpload, verifyUpload } from '../middleware/upload.js';
-import { parseBody, parseOrThrow } from '../middleware/validate.js';
+import { bodyField, parseBody, parseOrThrow } from '../middleware/validate.js';
 import type { Deps } from '../app.js';
 
 export function documentRoutes({ ai }: Deps): Router {
@@ -12,7 +12,7 @@ export function documentRoutes({ ai }: Deps): Router {
 
   // The file is analysed in memory and never written to disk or the database.
   router.post('/analyze', documentUpload.single('file'), async (req, res) => {
-    const language = parseOrThrow(languageSchema, req.body?.language);
+    const language = parseOrThrow(languageSchema, bodyField(req, 'language'));
     const file = await verifyUpload(req.file, 'document');
     const kind = file.mimeType === 'application/pdf' ? 'document' : 'image';
     const { data } = await ai.generateJson(

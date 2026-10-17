@@ -8,7 +8,7 @@ export const notFound: RequestHandler = (_req, res) => {
 };
 
 /** Renders every failure as the shared ApiError shape and never leaks internals. */
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = (err: unknown, req, res, next) => {
   if (res.headersSent) {
     next(err);
     return;

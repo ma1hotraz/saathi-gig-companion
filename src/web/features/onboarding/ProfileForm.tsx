@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import {
   AGE_BANDS,
   INCOME_BANDS,
@@ -28,7 +28,7 @@ export function ProfileForm({ initial, submitLabel, onSave }: Props) {
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function submit(e: FormEvent) {
+  async function submit(e: SyntheticEvent) {
     e.preventDefault();
     setBusy(true);
     setErrorKey(await onSave({ ...draft, display_name: draft.display_name?.trim() || null }));

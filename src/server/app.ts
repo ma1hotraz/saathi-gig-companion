@@ -51,10 +51,11 @@ export function createApp(deps: Deps): Express {
   api.use(notFound);
   app.use('/api', api);
 
-  if (deps.webDir && existsSync(join(deps.webDir, 'index.html'))) {
-    app.use('/assets', express.static(join(deps.webDir, 'assets'), { immutable: true, maxAge: '1y' }));
-    app.use(express.static(deps.webDir, { maxAge: '5m' }));
-    app.get('/{*splat}', (_req, res) => res.sendFile(join(deps.webDir!, 'index.html')));
+  const { webDir } = deps;
+  if (webDir && existsSync(join(webDir, 'index.html'))) {
+    app.use('/assets', express.static(join(webDir, 'assets'), { immutable: true, maxAge: '1y' }));
+    app.use(express.static(webDir, { maxAge: '5m' }));
+    app.get('/{*splat}', (_req, res) => res.sendFile(join(webDir, 'index.html')));
   }
 
   app.use(notFound);

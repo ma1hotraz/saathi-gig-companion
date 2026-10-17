@@ -1,7 +1,11 @@
+/**
+ * Live check of OUR Gemini adapter with the real shared schemas (no mocks).
+ * Run: npx tsx --env-file=.env scripts/smoke-adapter.ts
+ */
 import { createGeminiClient } from '../src/server/ai/client.js';
 import { earningsExtractResultSchema, schemesResultSchema, safetyResultSchema, documentAnalysisSchema, grievanceResultSchema } from '../src/shared/api.js';
 
-const ai = createGeminiClient({ apiKey: process.env.GEMINI_API_KEY!, model: process.env.GEMINI_MODEL!, fallbackModel: process.env.GEMINI_FALLBACK_MODEL! });
+const ai = createGeminiClient({ apiKey: process.env.GEMINI_API_KEY ?? '', model: process.env.GEMINI_MODEL ?? 'gemini-3.5-flash-lite', fallbackModel: process.env.GEMINI_FALLBACK_MODEL ?? 'gemini-3.1-flash-lite' });
 const today = new Date().toISOString().slice(0, 10);
 
 const r1 = await ai.generateJson({ system: `Extract earnings entries. Today is ${today}. Use platform names as spoken. Use null for unknown notes; use 0 for unknown numbers.`, input: 'Aaj Swiggy se 850 rupaye kamaye, 9 ghante, 14 trips. Petrol pe 200 laga.' }, earningsExtractResultSchema.omit({ transcript: true }));
@@ -19,7 +23,8 @@ console.log('doc:', r4.data.document_type, '| deadlines:', r4.data.deadlines, '|
 const r5 = await ai.generateJson({ system: 'Write a polite formal complaint letter in English plus a simple summary.', input: 'Issue: unpaid wages. Counterparty: QuickRide Logistics. Amount Rs 3250. Story: They deactivated my account and adjusted my payout against a penalty without notice.' }, grievanceResultSchema);
 console.log('grievance letter chars:', r5.data.letter.length, '| where:', r5.data.where_to_file.map((w) => w.place));
 
-let chunks = 0, calls: string[] = [];
+let chunks = 0;
+const calls: string[] = [];
 for await (const p of ai.streamChat({ system: 'You are Saathi.', turns: [{ role: 'user', text: 'Zomato has not paid me. Help me complain.' }], functions: [{ name: 'draft_grievance', description: 'Open complaint wizard', parameters: { type: 'object', properties: { counterparty: { type: 'string' } }, required: ['counterparty'] } }] })) {
   if (p.type === 'text') chunks++; if (p.type === 'call') calls.push(`${p.name}(${JSON.stringify(p.args)})`);
 }

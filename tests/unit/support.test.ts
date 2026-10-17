@@ -7,10 +7,10 @@ import { CHAT_FUNCTIONS } from '../../src/server/ai/tools.js';
 
 describe('cache', () => {
   it('computes once per key and serves hits', async () => {
-    const cache = createCache<number>({ max: 10, ttlMs: 1000 });
-    const compute = vi.fn(async () => 42);
-    expect(await cache.getOrCompute('k', compute)).toBe(42);
-    expect(await cache.getOrCompute('k', compute)).toBe(42);
+    const cache = createCache<{ n: number }>({ max: 10, ttlMs: 1000 });
+    const compute = vi.fn(() => Promise.resolve({ n: 42 }));
+    expect(await cache.getOrCompute('k', compute)).toEqual({ n: 42 });
+    expect(await cache.getOrCompute('k', compute)).toEqual({ n: 42 });
     expect(compute).toHaveBeenCalledTimes(1);
   });
 });

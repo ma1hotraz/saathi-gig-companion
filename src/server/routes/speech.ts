@@ -2,14 +2,14 @@ import { Router } from 'express';
 import { languageSchema } from '../../shared/domain.js';
 import { transcribePrompt } from '../ai/prompts/features.js';
 import { audioUpload, verifyUpload } from '../middleware/upload.js';
-import { parseOrThrow } from '../middleware/validate.js';
+import { bodyField, parseOrThrow } from '../middleware/validate.js';
 import type { Deps } from '../app.js';
 
 export function speechRoutes({ ai }: Deps): Router {
   const router = Router();
 
   router.post('/transcribe', audioUpload.single('file'), async (req, res) => {
-    const language = parseOrThrow(languageSchema, req.body?.language);
+    const language = parseOrThrow(languageSchema, bodyField(req, 'language'));
     const file = await verifyUpload(req.file, 'audio');
     const { text } = await ai.generateText({
       system: transcribePrompt(language),

@@ -5,8 +5,14 @@ import App from './App';
 import { I18nProvider } from './i18n';
 import { AuthProvider } from './lib/auth';
 import { ProfileProvider } from './lib/profile';
+import { applyStoredTextScale } from './features/settings/textScale';
 
-createRoot(document.getElementById('root')!).render(
+applyStoredTextScale();
+
+const container = document.getElementById('root');
+if (!container) throw new Error('Missing #root element');
+
+createRoot(container).render(
   <StrictMode>
     <I18nProvider>
       <AuthProvider>

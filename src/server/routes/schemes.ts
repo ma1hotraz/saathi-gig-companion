@@ -17,10 +17,14 @@ export function schemesRoutes({ ai }: Deps): Router {
     const key = [body.state, body.work_type, body.age_band, body.income_band, body.language].join('|');
     const result = await cache.getOrCompute(key, async () => {
       const profile = `State: ${body.state ?? 'not given'}. Work: ${body.work_type ?? 'not given'}. Age: ${body.age_band ?? 'not given'}. Monthly income: ${body.income_band ?? 'not given'}.`;
-      const { data, sources } = await ai.generateJson(
-        { system: schemesPrompt(body.language), input: `Worker profile: ${profile}`, groundingUrls: SCHEME_PAGES, thinking: 'medium' },
-        schemesResultSchema.omit({ sources: true }),
-      );
+      const ask = () =>
+        ai.generateJson(
+          { system: schemesPrompt(body.language), input: `Worker profile: ${profile}`, groundingUrls: SCHEME_PAGES, thinking: 'medium' },
+          schemesResultSchema.omit({ sources: true }),
+        );
+      // The model occasionally skips fetching the pages; one retry makes cited answers the norm.
+      let { data, sources } = await ask();
+      if (sources.length === 0) ({ data, sources } = await ask());
       return {
         ...data,
         // The model may only link to pages it was given; anything else could be invented.

@@ -73,13 +73,14 @@ function statusOf(err: unknown): number | undefined {
 
 /** Converts a zod schema to the JSON schema Gemini expects for `response_format`. */
 function toResponseFormat(schema: z.ZodType) {
-  const { $schema: _ignored, ...jsonSchema } = z.toJSONSchema(schema, { target: 'draft-7' });
+  const jsonSchema: Record<string, unknown> = { ...z.toJSONSchema(schema, { target: 'draft-7' }) };
+  delete jsonSchema.$schema;
   return { type: 'text' as const, mime_type: 'application/json', schema: jsonSchema };
 }
 
 function withGrounding(input: string | AiPart[], urls?: readonly string[]): string | AiPart[] {
   if (!urls?.length) return input;
-  const note = `Read these official pages and base your answer on them:\n${urls.map((u) => `- ${u}`).join('\n')}`;
+  const note = `Open exactly these official pages (they are homepages; do not search, and do not guess or open any other address) and base your answer on them:\n${urls.map((u) => `- ${u}`).join('\n')}`;
   return typeof input === 'string' ? `${input}\n\n${note}` : [...input, { type: 'text', text: note }];
 }
 
@@ -195,7 +196,7 @@ export function createGeminiClient(options: GeminiOptions): AiClient {
           const fetched: Array<{ type: string; result?: unknown }> = [];
           for await (const e of stream) {
             if (e.event_type === 'step.start' && e.step.type === 'function_call') {
-              calls.set(e.index, { name: e.step.name ?? '', args: '' });
+              calls.set(e.index, { name: e.step.name, args: '' });
             } else if (e.event_type === 'step.start' && e.step.type === 'url_context_result') {
               fetched.push(e.step);
             } else if (e.event_type === 'step.delta' && e.delta.type === 'text') {

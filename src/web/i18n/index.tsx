@@ -17,10 +17,12 @@ type Messages = Record<string, string>;
  * falls back to English (never to a raw key).
  */
 const modules = [common, home, earnings, chat, documents, grievance, rights, safety];
+const merge = (pick: (m: (typeof modules)[number]) => Messages): Messages =>
+  modules.reduce<Messages>((all, m) => ({ ...all, ...pick(m) }), {});
 const catalogs: Record<'en' | 'hi' | 'ta', Messages> = {
-  en: Object.assign({}, ...modules.map((m) => m.en)),
-  hi: Object.assign({}, ...modules.map((m) => m.hi)),
-  ta: Object.assign({}, ...modules.map((m) => m.ta)),
+  en: merge((m) => m.en),
+  hi: merge((m) => m.hi),
+  ta: merge((m) => m.ta),
 };
 
 const STORAGE_KEY = 'saathi.language';

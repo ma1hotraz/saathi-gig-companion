@@ -26,7 +26,9 @@ export function VoiceInput({ language, onText, disabled }: Props) {
   const [message, setMessage] = useState<string | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
   const timer = useRef<number | undefined>(undefined);
-  const supported = typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia && !!pickMimeType();
+  // mediaDevices is undefined on insecure (http) pages, which the DOM typings do not model.
+  const mediaDevices = navigator.mediaDevices as MediaDevices | undefined;
+  const supported = !!mediaDevices && !!pickMimeType();
 
   useEffect(
     () => () => {
@@ -40,9 +42,10 @@ export function VoiceInput({ language, onText, disabled }: Props) {
 
   async function start() {
     setMessage(null);
+    if (!mediaDevices) return;
     let stream: MediaStream;
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream = await mediaDevices.getUserMedia({ audio: true });
     } catch {
       setMessage(t('voice.denied'));
       return;

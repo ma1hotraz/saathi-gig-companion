@@ -1,3 +1,39 @@
+import { useEffect, useState } from 'react';
+import { useI18n } from '@/i18n';
+import { useProfile } from '@/lib/profile';
+import { PageHeader, Skeleton } from '@/components/ui';
+import { ProfileForm } from '@/features/onboarding/ProfileForm';
+import type { Profile } from '@shared/domain';
+import { AccountSection } from './AccountSection';
+import { DeleteDataSection } from './DeleteDataSection';
+import { TextSizeControl } from './TextSizeControl';
+import { applyStoredTextScale } from './textScale';
+
+/** Settings: profile, text size, account and data deletion. */
 export default function Settings() {
-  return <p>Settings is being built.</p>;
+  const { t } = useI18n();
+  const { profile, loading, save } = useProfile();
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => applyStoredTextScale(), []);
+
+  async function onSave(next: Profile): Promise<string | null> {
+    setSaved(false);
+    const err = await save(next);
+    setSaved(err === null);
+    return err;
+  }
+
+  return (
+    <>
+      <PageHeader title={t('settings.title')} />
+      {loading ? <Skeleton lines={5} /> : <ProfileForm initial={profile} submitLabel={t('common.save')} onSave={onSave} />}
+      <div role="status">
+        {saved && <p className="mt-3 rounded-xl border-2 border-money bg-money-soft p-3 font-bold">{t('settings.saved')}</p>}
+      </div>
+      <TextSizeControl />
+      <AccountSection />
+      <DeleteDataSection />
+    </>
+  );
 }

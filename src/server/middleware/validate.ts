@@ -15,3 +15,7 @@ export function parseOrThrow<T extends z.ZodType>(schema: T, input: unknown): z.
 
 export const parseBody = <T extends z.ZodType>(schema: T, req: Request): z.infer<T> =>
   parseOrThrow(schema, req.body);
+
+/** Reads one field of a multipart/urlencoded body as untrusted input (validate before use). */
+export const bodyField = (req: Request, name: string): unknown =>
+  (req.body as Record<string, unknown> | undefined)?.[name];

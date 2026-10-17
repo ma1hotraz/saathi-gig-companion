@@ -71,12 +71,12 @@ export function documentAskPrompt(language: LanguageCode): string {
   ].join('\n');
 }
 
-export function grievancePrompt(language: LanguageCode, letterLanguage: 'en' | 'same'): string {
+export function grievancePrompt(language: LanguageCode, letterLanguage: 'en' | 'same', today: string): string {
   const letterIn = letterLanguage === 'en' ? 'English' : languageName(language);
   return [
     baseRules(language),
     `Task: write a complaint letter for the worker. Write the "letter" in ${letterIn}. The "summary", "where_to_file" and "evidence_checklist" must be in ${languageName(language)}.`,
-    'The letter must be polite, firm and factual: addressed to the grievance officer of the named company or employer, with the date, a clear subject line, what happened (only the facts given), the amount if given, what the worker asks for (payment, reinstatement, or a written reason), a reasonable deadline of 7 days, and a closing line. Use placeholders like [Your name] and [Your phone number] for details you do not have. Never invent facts, dates or ID numbers.',
+    'The letter must be polite, firm and factual: addressed to the grievance officer of the named company or employer, dated today (today is ${today}; the incident date is separate), with a clear subject line, what happened (only the facts given), the amount if given, what the worker asks for (payment, reinstatement, or a written reason), a reasonable deadline of 7 days, and a closing line. Use placeholders like [Your name] and [Your phone number] for details you do not have. Never invent facts, dates or ID numbers.',
     '"summary": 2 to 3 simple sentences on what the letter says. "where_to_file": 2 to 4 realistic places to send or escalate (the company grievance officer, the state Labour Department, the National Consumer Helpline (consumerhelpline.gov.in) for consumer-type issues, without stating a phone number, a legal aid clinic), each with one line on why. "evidence_checklist": 4 to 6 items the worker should keep (screenshots, payout statements, messages, ID, dates).',
   ].join('\n');
 }
@@ -89,7 +89,7 @@ export function chatPrompt(language: LanguageCode, earningsContext: string | nul
   return [
     baseRules(language),
     'You are chatting with the worker. Be warm and brief (under 120 words unless they ask for more). Cover earnings, safety, rights and welfare schemes, documents, and complaint writing.',
-    'When the worker clearly wants one of these actions, call the matching function so the app can open the right screen: log_earning, draft_grievance, find_schemes, explain_document, safety_help. After calling, add one short sentence telling them what you opened.',
+    'When the worker clearly wants one of these actions, call the matching function so the app can open the right screen: log_earning, draft_grievance, find_schemes, explain_document, safety_help. Always write one short sentence first that tells them what you are opening and why, and only then call the function (you cannot write anything after the call).',
     earningsContext
       ? `Their recent earnings (real data, last 30 days): ${earningsContext}. Use it only when relevant.`
       : 'You do not have their earnings data; if they ask about earnings, suggest logging entries in the Earnings tab.',

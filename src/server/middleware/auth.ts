@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
-import type { RequestHandler } from 'express';
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { Request, RequestHandler } from 'express';
+import { createClient } from '@supabase/supabase-js';
 import { createCache } from '../lib/cache.js';
 import { HttpError } from '../lib/errors.js';
 
@@ -28,14 +28,14 @@ export function createSupabaseVerifier(url: string, anonKey: string): TokenVerif
     const key = createHash('sha256').update(token).digest('hex');
     const { id } = await cache.getOrCompute(key, async () => {
       const { data, error } = await client.auth.getUser(token);
-      return { id: error || !data.user ? null : data.user.id };
+      return { id: error ? null : data.user.id };
     });
     return id;
   };
 }
 
 /** Creates a Supabase client acting as the caller, so every query is filtered by RLS. */
-export function userScopedClient(url: string, anonKey: string, token: string): SupabaseClient {
+export function userScopedClient(url: string, anonKey: string, token: string) {
   return createClient(url, anonKey, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: { headers: { Authorization: `Bearer ${token}` } },
@@ -52,4 +52,10 @@ export function requireAuth(verify: TokenVerifier): RequestHandler {
     req.user = { id, token };
     next();
   };
+}
+
+/** Returns the authenticated user; only valid on routes mounted behind `requireAuth`. */
+export function userOf(req: Request): AuthUser {
+  if (!req.user) throw new HttpError('unauthorized', 'Please sign in to continue');
+  return req.user;
 }

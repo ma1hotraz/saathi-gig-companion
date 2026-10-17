@@ -7,6 +7,7 @@ import { SCHEME_PAGES } from '../ai/sources.js';
 import { CHAT_FUNCTIONS } from '../ai/tools.js';
 import { logger } from '../lib/logger.js';
 import { parseBody } from '../middleware/validate.js';
+import { userOf } from '../middleware/auth.js';
 import type { Deps } from '../app.js';
 
 function send(res: Response, event: ChatStreamEvent): void {
@@ -31,7 +32,7 @@ export function chatRoutes({ ai, loadEarnings }: Deps): Router {
 
     let earningsContext: string | null = null;
     if (body.includeEarningsContext) {
-      const entries = await loadEarnings(req.user!, 30);
+      const entries = await loadEarnings(userOf(req), 30);
       if (entries.length > 0) {
         const s = summarizeEarnings(entries);
         earningsContext = JSON.stringify({ net: s.net, totalIn: s.totalIn, totalExpenses: s.totalExpenses, hours: s.hours, netPerHour: s.netPerHour, byPlatform: s.byPlatform });
