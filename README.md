@@ -37,6 +37,8 @@ Production: `npm run build && node --env-file=.env dist/server/server/index.js` 
 
 ## Quality gates
 
+CI definition: [docs/ci.workflow.yml](docs/ci.workflow.yml) (lint, typecheck, coverage, build, audit). To enable it on GitHub, copy it to `.github/workflows/ci.yml`.
+
 ```bash
 npm run lint && npm run typecheck && npm test      # 35 unit and API tests, strict TS, type-aware ESLint + jsx-a11y
 npm run test:coverage
