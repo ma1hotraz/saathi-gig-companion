@@ -1,0 +1,116 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource/noto-sans-devanagari/400.css';
+@import '@fontsource/noto-sans-devanagari/700.css';
+@import '@fontsource/noto-sans-bengali/400.css';
+@import '@fontsource/noto-sans-bengali/700.css';
+@import '@fontsource/noto-sans-tamil/400.css';
+@import '@fontsource/noto-sans-tamil/700.css';
+@import '@fontsource/noto-sans-telugu/400.css';
+@import '@fontsource/noto-sans-telugu/700.css';
+@import '@fontsource/noto-sans-kannada/400.css';
+@import '@fontsource/noto-sans-kannada/700.css';
+@import '@fontsource/noto-sans-gujarati/400.css';
+@import '@fontsource/noto-sans-gujarati/700.css';
+@import '@fontsource/noto-sans-malayalam/400.css';
+@import '@fontsource/noto-sans-malayalam/700.css';
+@import '@fontsource/noto-sans-gurmukhi/400.css';
+@import '@fontsource/noto-sans-gurmukhi/700.css';
+@import '@fontsource/noto-sans-oriya/400.css';
+@import '@fontsource/noto-sans-oriya/700.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-asphalt: #16202b;
+  --color-muted: #4d5a67;
+  --color-chalk: #f3f4f1;
+  --color-paper: #ffffff;
+  --color-signal: #ffc400;
+  --color-signal-soft: #fff3c4;
+  --color-money: #0a7040;
+  --color-money-soft: #ddf3e6;
+  --color-alert: #b3261e;
+  --color-alert-soft: #fbe3e1;
+  --color-lane: #1b4f9c;
+  --color-lane-soft: #e3ecf9;
+  --font-sans: 'Archivo Variable', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Noto Sans Tamil',
+    'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Gujarati', 'Noto Sans Malayalam',
+    'Noto Sans Gurmukhi', 'Noto Sans Oriya', system-ui, sans-serif;
+  --shadow-sign: 4px 4px 0 0 var(--color-asphalt);
+}
+
+:root {
+  color-scheme: light;
+  --text-scale: 1;
+}
+
+html {
+  font-size: calc(18px * var(--text-scale));
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--color-chalk);
+  color: var(--color-asphalt);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+h1, h2, h3 { line-height: 1.2; font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.55rem; }
+h3 { font-size: 1.2rem; }
+p, li { max-width: 65ch; }
+a { color: var(--color-lane); text-underline-offset: 3px; }
+
+:focus-visible { outline: 3px solid var(--color-lane); outline-offset: 2px; border-radius: 4px; }
+
+.skip-link {
+  position: absolute; left: 0.5rem; top: -4rem; z-index: 100;
+  background: var(--color-asphalt); color: #fff; padding: 0.75rem 1rem; border-radius: 8px;
+}
+.skip-link:focus { top: 0.5rem; }
+
+/* Sign panel: the one memorable structure. */
+.sign {
+  background: var(--color-paper);
+  border: 2px solid var(--color-asphalt);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sign);
+}
+.sign-yellow { background: var(--color-signal); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  min-height: 3rem; padding: 0.6rem 1.1rem;
+  font: inherit; font-weight: 700; font-stretch: 90%;
+  border: 2px solid var(--color-asphalt); border-radius: 12px;
+  background: var(--color-paper); color: var(--color-asphalt);
+  box-shadow: 3px 3px 0 0 var(--color-asphalt);
+  cursor: pointer; transition: transform 80ms, box-shadow 80ms;
+}
+.btn:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--color-asphalt); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: var(--color-signal); }
+.btn-danger { background: var(--color-alert); color: #fff; }
+.btn-quiet { box-shadow: none; border-color: transparent; background: transparent; text-decoration: underline; }
+
+.field {
+  width: 100%; min-height: 3rem; padding: 0.55rem 0.8rem; font: inherit;
+  background: var(--color-paper); color: var(--color-asphalt);
+  border: 2px solid var(--color-asphalt); border-radius: 10px;
+}
+textarea.field { min-height: 7rem; resize: vertical; }
+.label { display: block; font-weight: 700; margin-bottom: 0.3rem; }
+.hint { color: var(--color-muted); font-size: 0.85rem; }
+
+.money { font-weight: 800; font-stretch: 75%; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.skeleton { background: linear-gradient(90deg, #e4e6e1 25%, #f1f2ee 50%, #e4e6e1 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .sign { box-shadow: none; border-color: #000; }
+}
