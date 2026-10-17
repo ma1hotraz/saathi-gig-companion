@@ -21,9 +21,8 @@ function CopyField({ label, value, id }: { label: string; value: string; id: str
   return (
     <div className="mb-3">
       <label htmlFor={id} className="label">{label}</label>
-      <div className="flex flex-wrap gap-2">
-        {/* Inline size: the global .field rule (font: inherit) would override a utility class. */}
-        <input id={id} className="field basis-full" style={{ fontSize: '0.85rem' }} readOnly value={value} onFocus={(e) => e.currentTarget.select()} />
+      <div className="flex flex-wrap gap-2 lg:flex-nowrap">
+        <input id={id} className="field basis-full text-[0.85rem] lg:min-w-0 lg:basis-0 lg:flex-1" readOnly value={value} onFocus={(e) => e.currentTarget.select()} />
         <button type="button" className="btn" onClick={() => void copy()} aria-label={`${t('common.copy')}: ${label}`}>
           {copied ? <Check aria-hidden="true" size={20} /> : <Copy aria-hidden="true" size={20} />}
           <span>{copied ? t('common.copied') : t('common.copy')}</span>
@@ -36,13 +35,15 @@ function CopyField({ label, value, id }: { label: string; value: string; id: str
 /** Copy-paste demo credentials, with a one-tap button that fills the sign-in form. */
 export function DemoLogin({ onUse }: { onUse: (email: string, password: string) => void }) {
   const { t } = useI18n();
+  if (!DEMO_ACCOUNT) return null;
+  const account = DEMO_ACCOUNT;
   return (
     <section className="sign sign-yellow mb-6 p-4" aria-labelledby="demo-h">
       <h2 id="demo-h" className="text-xl">{t('auth.demo.title')}</h2>
       <p className="mb-3 mt-1">{t('auth.demo.body')}</p>
-      <CopyField id="demo-email" label={t('auth.email')} value={DEMO_ACCOUNT.email} />
-      <CopyField id="demo-password" label={t('auth.password')} value={DEMO_ACCOUNT.password} />
-      <button type="button" className="btn w-full" onClick={() => onUse(DEMO_ACCOUNT.email, DEMO_ACCOUNT.password)}>
+      <CopyField id="demo-email" label={t('auth.email')} value={account.email} />
+      <CopyField id="demo-password" label={t('auth.password')} value={account.password} />
+      <button type="button" className="btn w-full" onClick={() => onUse(account.email, account.password)}>
         {t('auth.demo.use')}
       </button>
     </section>

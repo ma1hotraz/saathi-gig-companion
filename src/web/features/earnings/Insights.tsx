@@ -34,10 +34,10 @@ export function Insights({ hasEntries }: { hasEntries: boolean }) {
   }
 
   return (
-    <section aria-labelledby="ins-h" className="mt-8">
-      <h2 id="ins-h" className="mb-2 text-3xl">{t('earnings.ins.title')}</h2>
+    <section aria-labelledby="ins-h" className="panel p-5 lg:p-6">
+      <h2 id="ins-h" className="mb-2 text-2xl">{t('earnings.ins.title')}</h2>
       <p className="mb-3 text-muted">{hasEntries ? t('earnings.ins.body') : t('earnings.ins.empty')}</p>
-      <button type="button" className="btn btn-primary" disabled={busy || !hasEntries} onClick={() => void explain()}>
+      <button type="button" className="btn btn-primary w-full sm:w-auto" disabled={busy || !hasEntries} onClick={() => void explain()}>
         {busy ? t('earnings.ins.working') : t('earnings.ins.go')}
       </button>
       <div className="mt-4" aria-live="polite">

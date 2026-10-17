@@ -29,9 +29,10 @@ test('API refuses unauthenticated AI calls', async ({ request }) => {
 });
 
 test('the demo login is on the sign-in page and really signs in', async ({ page }) => {
+  test.skip(!process.env.VITE_DEMO_EMAIL, 'demo login is not configured (VITE_DEMO_EMAIL / VITE_DEMO_PASSWORD)');
   await page.goto('/login');
-  await expect(page.locator('#demo-email')).toHaveValue('judge.saathi@example.com');
-  await expect(page.locator('#demo-password')).toHaveValue('Saathi-Judge-2026');
+  await expect(page.locator('#demo-email')).toHaveValue(process.env.VITE_DEMO_EMAIL ?? '');
+  await expect(page.locator('#demo-password')).toHaveValue(process.env.VITE_DEMO_PASSWORD ?? '');
   await page.getByRole('button', { name: 'Fill in the demo login' }).click();
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await expect(page).toHaveURL(/\/(setup)?$/, { timeout: 30_000 });

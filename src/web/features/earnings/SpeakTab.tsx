@@ -30,7 +30,9 @@ export function SpeakTab({ onResult }: { onResult: (r: EarningsExtractResult) =>
           <Sparkles aria-hidden="true" size={20} />
           {t('earnings.speak.sampleBtn')}
         </button>
-        <button type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => void run((signal) => api.extractEarningsText(text.trim(), language, signal))}>
+      </div>
+      <div className="mt-3">
+        <button type="button" className="btn btn-primary w-full" disabled={busy || !text.trim()} onClick={() => void run((signal) => api.extractEarningsText(text.trim(), language, signal))}>
           {busy ? t('earnings.reading') : t('earnings.speak.go')}
         </button>
       </div>

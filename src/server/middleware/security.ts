@@ -12,7 +12,8 @@ export function securityHeaders(supabaseUrl: string): RequestHandler {
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        // No 'unsafe-inline' and no hashes: the UI creates no inline styles (tests/e2e/csp.spec.ts proves it).
+        styleSrc: ["'self'"],
         imgSrc: ["'self'", 'data:', 'blob:'],
         mediaSrc: ["'self'", 'blob:'],
         fontSrc: ["'self'"],
@@ -21,6 +22,7 @@ export function securityHeaders(supabaseUrl: string): RequestHandler {
         frameAncestors: ["'none'"],
         baseUri: ["'self'"],
         formAction: ["'self'"],
+        upgradeInsecureRequests: [],
       },
     },
     referrerPolicy: { policy: 'no-referrer' },
@@ -42,3 +44,18 @@ export const apiLimiter = rateLimit({ ...limited, windowMs: 60_000, limit: 120 }
 
 /** Tighter per-user limit for routes that call Gemini (cost and abuse control). */
 export const aiLimiter = rateLimit({ ...limited, windowMs: 60_000, limit: 20, keyGenerator: keyByUserOrIp });
+
+/** Browser features the app uses are limited to its own origin; everything else is off. */
+export const permissionsPolicy: RequestHandler = (_req, res, next) => {
+  res.setHeader(
+    'Permissions-Policy',
+    'geolocation=(self), microphone=(self), camera=(self), payment=(), usb=(), bluetooth=(), interest-cohort=()',
+  );
+  next();
+};
+
+/** API responses can hold personal data (earnings, letters): never let a cache keep them. */
+export const noStore: RequestHandler = (_req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+};

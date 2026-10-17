@@ -21,7 +21,7 @@ export function ReviewEntries({ transcript, drafts, onChange, onDiscard, onSave 
 
   if (drafts.length === 0) {
     return (
-      <div role="status" className="mt-5 rounded-xl border-2 border-asphalt bg-signal-soft p-4">
+      <div role="status" className="rounded-xl border-2 border-asphalt bg-signal-soft p-4">
         <p className="font-bold">{t('earnings.none.title')}</p>
         <p className="mt-1">{t('earnings.none.body')}</p>
         {transcript && <p className="hint mt-2">{t('earnings.heard', { text: transcript })}</p>}
@@ -50,15 +50,15 @@ export function ReviewEntries({ transcript, drafts, onChange, onDiscard, onSave 
   }
 
   return (
-    <section className="sign mt-5 p-4" aria-labelledby="review-h">
-      <h2 id="review-h" className="text-2xl">{t('earnings.review.title')}</h2>
+    <section className="rounded-xl border-2 border-asphalt bg-paper p-4" aria-labelledby="review-h">
+      <h3 id="review-h" className="text-xl">{t('earnings.review.title')}</h3>
       <p className="mt-1 text-muted">{t('earnings.review.body')}</p>
       {transcript && <p className="hint mt-2">{t('earnings.heard', { text: transcript })}</p>}
       <ul className="mt-4 space-y-5">
         {drafts.map((d, i) => (
           <li key={d.key} className="border-t-2 border-asphalt pt-4">
             <div className="mb-2 flex items-center justify-between gap-2">
-              <h3 className="text-xl">{t('earnings.review.entry', { n: i + 1 })}</h3>
+              <h4 className="text-lg">{t('earnings.review.entry', { n: i + 1 })}</h4>
               <button type="button" className="btn btn-quiet" onClick={() => onChange(drafts.filter((x) => x.key !== d.key))}>
                 <Trash2 aria-hidden="true" size={18} /> {t('earnings.review.remove')}
               </button>

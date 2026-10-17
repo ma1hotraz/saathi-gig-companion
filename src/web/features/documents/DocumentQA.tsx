@@ -47,7 +47,7 @@ export function DocumentQA({ analysis }: { analysis: DocumentAnalysis }) {
   };
 
   return (
-    <section className="mt-8" aria-labelledby="docs-ask-title">
+    <section className="panel mt-6 p-5 lg:p-8" aria-labelledby="docs-ask-title">
       <h2 id="docs-ask-title">{t('docs.askTitle')}</h2>
       <div className="mt-3">
         <TextArea
@@ -71,9 +71,9 @@ export function DocumentQA({ analysis }: { analysis: DocumentAnalysis }) {
       {pairs.length > 0 && (
         <div className="mt-6" aria-live="polite">
           <h3>{t('docs.history')}</h3>
-          <ul className="mt-3 space-y-4">
+          <ul className="mt-3 divide-y divide-line">
             {pairs.map((p, i) => (
-              <li key={i} className="border-l-4 border-asphalt pl-3">
+              <li key={i} className="py-4">
                 <p lang={language} className="font-bold"><span className="text-muted">{t('docs.you')}: </span>{p.question}</p>
                 <div lang={language} className="mt-2"><Markdown>{p.answer}</Markdown></div>
               </li>

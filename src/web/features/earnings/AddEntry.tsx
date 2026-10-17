@@ -16,7 +16,7 @@ interface Props {
 }
 
 const triggerClass =
-  'flex min-h-12 flex-1 items-center justify-center gap-2 border-2 border-asphalt bg-paper px-2 font-bold data-[state=active]:bg-signal first:rounded-l-xl last:rounded-r-xl -ml-0.5 first:ml-0';
+  'flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg px-2 font-bold text-ink-2 hover:bg-paper data-[state=active]:bg-signal data-[state=active]:text-asphalt data-[state=active]:shadow-[inset_0_0_0_2px_var(--color-asphalt)]';
 
 /** The three ways to add earnings: form, speak/type, payout screenshot. AI results are reviewed before saving. */
 export function AddEntry({ initial, onSave }: Props) {
@@ -39,10 +39,22 @@ export function AddEntry({ initial, onSave }: Props) {
   }
 
   return (
-    <section aria-labelledby="add-h" className="mt-8">
-      <h2 id="add-h" className="mb-3 text-3xl">{t('earnings.add.title')}</h2>
+    <section aria-labelledby="add-h" className="panel p-5 lg:p-6">
+      <h2 id="add-h" className="mb-4 text-2xl">{t('earnings.add.title')}</h2>
+      {result && (
+        <div className="mb-5">
+          <p className="kicker mb-2 text-sm">{t('earnings.nothingSaved')}</p>
+          <ReviewEntries
+            transcript={result.transcript}
+            drafts={result.drafts}
+            onChange={(drafts) => setResult({ ...result, drafts })}
+            onDiscard={() => setResult(null)}
+            onSave={saveReviewed}
+          />
+        </div>
+      )}
       <Tabs.Root defaultValue="form" onValueChange={() => setNotice('')}>
-        <Tabs.List aria-label={t('earnings.add.title')} className="mb-4 flex">
+        <Tabs.List aria-label={t('earnings.add.title')} className="mb-5 flex gap-1 rounded-xl border-2 border-line bg-chalk p-1">
           <Tabs.Trigger value="form" className={triggerClass}>
             <FileText aria-hidden="true" size={18} /> {t('earnings.tab.form')}
           </Tabs.Trigger>
@@ -58,15 +70,6 @@ export function AddEntry({ initial, onSave }: Props) {
         <Tabs.Content value="shot"><ScreenshotTab onResult={extracted} /></Tabs.Content>
       </Tabs.Root>
       <p role="status" className="mt-3 font-bold text-money">{notice}</p>
-      {result && (
-        <ReviewEntries
-          transcript={result.transcript}
-          drafts={result.drafts}
-          onChange={(drafts) => setResult({ ...result, drafts })}
-          onDiscard={() => setResult(null)}
-          onSave={saveReviewed}
-        />
-      )}
     </section>
   );
 }

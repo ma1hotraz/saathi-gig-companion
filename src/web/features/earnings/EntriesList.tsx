@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import type { Earning } from '@shared/domain';
-import { EmptyState } from '@/components/ui';
+import { Chip, EmptyState } from '@/components/ui';
 import { useI18n } from '@/i18n';
 import { formatRupees } from './dates';
 
@@ -26,25 +26,30 @@ export function EntriesList({ entries, onDelete }: Props) {
     if (!failure) setConfirming(null);
   }
 
+  const sourceLabel = { manual: t('earnings.src.manual'), voice: t('earnings.src.voice'), screenshot: t('earnings.src.screenshot') };
+
   return (
-    <section aria-labelledby="list-h" className="mt-8">
-      <h2 id="list-h" className="mb-3 text-3xl">{t('earnings.list.title')}</h2>
+    <section aria-labelledby="list-h">
+      <h2 id="list-h" className="mb-3 text-2xl">{t('earnings.list.title')}</h2>
       {entries.length === 0 ? (
         <EmptyState title={t('earnings.empty.title')} body={t('earnings.empty.body')} />
       ) : (
-        <ul className="divide-y-2 divide-asphalt border-y-2 border-asphalt">
+        <ul className="divide-y divide-line border-y border-line">
           {entries.map((e) => (
-            <li key={e.id} className="py-3">
-              <div className="flex items-start justify-between gap-3">
+            <li key={e.id} className="py-4">
+              <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="font-bold break-words">{e.platform}</p>
                   <p className="hint">
                     {new Date(`${e.entry_date}T00:00:00`).toLocaleDateString(bcp47, { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
+                  <p className="flex flex-wrap items-center gap-2 font-bold">
+                    <span className="break-words">{e.platform}</span>
+                    <Chip>{sourceLabel[e.source]}</Chip>
+                  </p>
+                  {e.notes && <p className="mt-1 break-words text-muted">{e.notes}</p>}
                 </div>
-                <p className="money text-2xl">{formatRupees(e.amount_in - e.expenses, true)}</p>
+                <p className="money shrink-0 text-right text-2xl">{formatRupees(e.amount_in - e.expenses, true)}</p>
               </div>
-              {e.notes && <p className="mt-1 break-words">{e.notes}</p>}
               {confirming === e.id ? (
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <p className="w-full font-bold">{t('earnings.list.sure')}</p>
@@ -58,7 +63,7 @@ export function EntriesList({ entries, onDelete }: Props) {
               ) : (
                 <button
                   type="button"
-                  className="btn btn-quiet mt-1"
+                  className="btn btn-quiet btn-sm mt-1"
                   aria-label={t('earnings.list.deleteFor', { platform: e.platform, date: e.entry_date })}
                   onClick={() => {
                     setError(null);

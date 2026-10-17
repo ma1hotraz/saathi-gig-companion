@@ -7,6 +7,7 @@ import { useProfile } from '@/lib/profile';
 import { ErrorState, PageHeader, Skeleton } from '@/components/ui';
 import { GrievanceForm } from './GrievanceForm';
 import { LetterResult, type Draft } from './LetterResult';
+import { ResultPreview } from './ResultPreview';
 import { SavedList } from './SavedList';
 import { documentFromState, initialValues } from './prefill';
 import { useSavedGrievances, type SavedGrievance } from './useSavedGrievances';
@@ -55,17 +56,24 @@ export default function Complaint() {
     <div>
       <div className="no-print">
         <PageHeader title={t('complaint.title')} intro={t('complaint.intro')} />
-        <GrievanceForm initial={initial} fromDocument={doc !== null} busy={busy} onSubmit={(b) => void generate(b)} />
-        {busy && (
-          <div className="mt-6">
-            <p className="font-bold" role="status">{t('complaint.drafting')}</p>
-            <p className="hint mb-3">{t('complaint.draftingHint')}</p>
-            <Skeleton lines={7} />
-          </div>
-        )}
-        {error && <div className="mt-6"><ErrorState message={error} onRetry={lastBody.current ? () => void generate(lastBody.current as GrievanceRequest) : undefined} /></div>}
       </div>
-      {draft && <LetterResult key={`${draft.savedId ?? 'new'}-${draft.letter.length}-${draft.counterparty}`} draft={draft} onSaved={() => void saved.reload()} />}
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="no-print lg:col-span-6">
+          <GrievanceForm initial={initial} fromDocument={doc !== null} busy={busy} onSubmit={(b) => void generate(b)} />
+        </div>
+        <div className="mt-8 lg:col-span-6 lg:mt-0 lg:sticky lg:top-24 lg:self-start">
+          {error && <div className="no-print mb-5"><ErrorState message={error} onRetry={lastBody.current ? () => void generate(lastBody.current as GrievanceRequest) : undefined} /></div>}
+          {busy && (
+            <section className="no-print panel p-5 lg:p-8">
+              <p className="font-bold" role="status">{t('complaint.drafting')}</p>
+              <p className="hint mb-4">{t('complaint.draftingHint')}</p>
+              <Skeleton lines={7} />
+            </section>
+          )}
+          {!busy && !draft && <div className="no-print"><ResultPreview /></div>}
+          {!busy && draft && <LetterResult key={`${draft.savedId ?? 'new'}-${draft.letter.length}-${draft.counterparty}`} draft={draft} onSaved={() => void saved.reload()} />}
+        </div>
+      </div>
       <SavedList items={saved.items} failed={saved.failed} onRetry={() => void saved.reload()} onOpen={openSaved} onDelete={saved.remove} />
     </div>
   );

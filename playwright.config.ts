@@ -4,6 +4,13 @@ import { defineConfig, devices } from '@playwright/test';
  * End-to-end tests drive the production build in real Chrome against the real Supabase project
  * and the real Gemini API (no mocks). Build first: `npm run build`.
  */
+// Demo-login credentials come from .env (never from source code).
+try {
+  process.loadEnvFile('.env');
+} catch {
+  /* no .env: CI supplies the variables */
+}
+
 const remote = process.env.BASE_URL;
 
 export default defineConfig({

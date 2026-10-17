@@ -4,13 +4,14 @@ import { supabase } from '@/lib/supabase';
 import { useI18n } from '@/i18n';
 import { isoDaysAgo } from './dates';
 
+const RECENT_COUNT = 20;
 const COLUMNS = 'id, created_at, entry_date, platform, amount_in, expenses, hours, trips, notes, source';
 
 interface EarningsData {
   /** Newest 20 entries. */
   recent: Earning[];
   /** Everything from the last 30 days (for the summary). */
-  month: EarningInput[];
+  month: Earning[];
 }
 
 function parseRows(rows: unknown[] | null): Earning[] {
@@ -44,15 +45,20 @@ export function useEarnings() {
     controller.current = ctrl;
     setLoading(true);
     setError(null);
-    const [recent, month] = await Promise.all([
-      supabase.from('earnings').select(COLUMNS).order('entry_date', { ascending: false }).order('created_at', { ascending: false }).limit(20).abortSignal(ctrl.signal),
-      supabase.from('earnings').select(COLUMNS).gte('entry_date', isoDaysAgo(29)).order('entry_date', { ascending: false }).limit(1000).abortSignal(ctrl.signal),
-    ]);
+    const res = await supabase
+      .from('earnings')
+      .select(COLUMNS)
+      .gte('entry_date', isoDaysAgo(29))
+      .order('entry_date', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(500)
+      .abortSignal(ctrl.signal);
     if (ctrl.signal.aborted) return;
-    if (recent.error || month.error) {
+    if (res.error) {
       setError(t('earnings.loadError'));
     } else {
-      setData({ recent: parseRows(recent.data), month: parseRows(month.data) });
+      const month = parseRows(res.data);
+      setData({ recent: month.slice(0, RECENT_COUNT), month });
     }
     setLoading(false);
   }, [t]);

@@ -4,8 +4,9 @@ import type { GrievanceResult } from '@shared/api';
 import type { IssueType } from '@shared/domain';
 import { supabase } from '@/lib/supabase';
 import { useI18n } from '@/i18n';
-import { AiNotice } from '@/components/ui';
+import { AiNotice, Chip } from '@/components/ui';
 import { ReadAloud } from '@/components/ReadAloud';
+import { EvidenceList, WhereToFile } from './LetterExtras';
 
 export interface Draft extends GrievanceResult {
   issue_type: IssueType;
@@ -24,7 +25,6 @@ interface Props {
 export function LetterResult({ draft, onSaved }: Props) {
   const { t, language } = useI18n();
   const [letter, setLetter] = useState(draft.letter);
-  const [ticked, setTicked] = useState<Set<number>>(new Set());
   const [message, setMessage] = useState<{ text: string; ok: boolean } | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(Boolean(draft.savedId));
@@ -67,71 +67,39 @@ export function LetterResult({ draft, onSaved }: Props) {
     onSaved();
   };
 
-  const toggle = (i: number) =>
-    setTicked((prev) => {
-      const next = new Set(prev);
-      if (!next.delete(i)) next.add(i);
-      return next;
-    });
-
   return (
     <>
-      <article className="no-print mt-8" aria-labelledby="complaint-result-title">
-        <h2 id="complaint-result-title" ref={heading} tabIndex={-1} className="outline-none">{t('complaint.resultTitle')}</h2>
+      <article className="no-print space-y-5" aria-labelledby="complaint-result-title">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="complaint-result-title" ref={heading} tabIndex={-1} className="outline-none">{t('complaint.resultTitle')}</h2>
+          {saved && <Chip tone="green">{t('complaint.savedChip')}</Chip>}
+        </div>
         {draft.summary && (
-          <section className="sign mt-3 p-4">
-            <h3>{t('complaint.summary')}</h3>
+          <section className="sign p-5" aria-labelledby="complaint-summary-title">
+            <h3 id="complaint-summary-title">{t('complaint.summary')}</h3>
             <p lang={language} className="mt-1 max-w-prose">{draft.summary}</p>
             <div className="mt-3"><ReadAloud text={draft.summary} /></div>
           </section>
         )}
 
-        <div className="mt-5">
+        <section className="panel bg-paper p-4 lg:p-6" aria-label={t('complaint.letterLabel')}>
           <label htmlFor="complaint-letter" className="label">{t('complaint.letterLabel')}</label>
-          <textarea id="complaint-letter" ref={area} lang={language} aria-describedby="complaint-letter-hint" className="field font-mono text-base" rows={16} value={letter} onChange={(e) => setLetter(e.target.value)} />
-          <p id="complaint-letter-hint" className="hint mt-1">{t('complaint.letterHint')}</p>
-        </div>
+          <textarea id="complaint-letter" ref={area} lang={language} aria-describedby="complaint-letter-hint" className="field min-h-96 resize-y p-5 text-[17px] leading-8 lg:p-8" rows={16} value={letter} onChange={(e) => setLetter(e.target.value)} />
+          <p id="complaint-letter-hint" className="hint mt-2">{t('complaint.letterHint')}</p>
 
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" className="btn btn-primary" onClick={() => void copy()}><Copy aria-hidden="true" size={20} />{t('complaint.copy')}</button>
-          <button type="button" className="btn" onClick={() => window.print()}><Printer aria-hidden="true" size={20} />{t('common.print')}</button>
-          <a className="btn no-underline" href={`https://wa.me/?text=${encodeURIComponent(letter)}`} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" size={20} />{t('complaint.whatsapp')}</a>
-          {!saved && (
-            <button type="button" className="btn" disabled={saving} onClick={() => void save()}><Save aria-hidden="true" size={20} />{saving ? t('complaint.saving') : t('complaint.save')}</button>
-          )}
-        </div>
-        <p role="status" className={`mt-3 font-bold ${message && !message.ok ? 'text-alert' : 'text-money'}`}>{message?.text}</p>
+          <div role="group" aria-label={t('complaint.actions')} className="mt-4 flex flex-wrap gap-3 border-t border-line pt-4">
+            <button type="button" className="btn btn-primary" onClick={() => void copy()}><Copy aria-hidden="true" size={20} />{t('complaint.copy')}</button>
+            <button type="button" className="btn" onClick={() => window.print()}><Printer aria-hidden="true" size={20} />{t('common.print')}</button>
+            <a className="btn no-underline" href={`https://wa.me/?text=${encodeURIComponent(letter)}`} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" size={20} />{t('complaint.whatsapp')}</a>
+            {!saved && (
+              <button type="button" className="btn" disabled={saving} onClick={() => void save()}><Save aria-hidden="true" size={20} />{saving ? t('complaint.saving') : t('complaint.save')}</button>
+            )}
+          </div>
+          <p role="status" className={`mt-3 min-h-6 font-bold ${message && !message.ok ? 'text-alert' : 'text-money'}`}>{message?.text}</p>
+        </section>
 
-        {draft.where_to_file.length > 0 && (
-          <section className="mt-6">
-            <h3>{t('complaint.where')}</h3>
-            <ul lang={language} className="mt-2 space-y-3">
-              {draft.where_to_file.map((w, i) => (
-                <li key={i} className="rounded-xl border-2 border-asphalt bg-paper p-3">
-                  <p className="font-bold">{w.place}</p>
-                  <p className="mt-1">{w.why}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {draft.evidence_checklist.length > 0 && (
-          <fieldset className="mt-6">
-            <legend className="text-[22px] font-bold">{t('complaint.evidence')}</legend>
-            <p className="hint mt-1">{t('complaint.evidenceHint')}</p>
-            <ul lang={language} className="mt-2 space-y-2">
-              {draft.evidence_checklist.map((item, i) => (
-                <li key={i}>
-                  <label className="flex min-h-12 cursor-pointer items-start gap-3 py-2">
-                    <input type="checkbox" className="mt-1 size-6 shrink-0" checked={ticked.has(i)} onChange={() => toggle(i)} />
-                    <span>{item}</span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </fieldset>
-        )}
+        <WhereToFile items={draft.where_to_file} />
+        <EvidenceList items={draft.evidence_checklist} />
         <AiNotice />
       </article>
 

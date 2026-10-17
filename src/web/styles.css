@@ -21,10 +21,13 @@
 
 @theme {
   --color-asphalt: #16202b;
+  --color-ink-2: #243447;
   --color-muted: #4d5a67;
   --color-chalk: #f3f4f1;
   --color-paper: #ffffff;
+  --color-line: #d8dcd5;
   --color-signal: #ffc400;
+  --color-signal-deep: #e6ac00;
   --color-signal-soft: #fff3c4;
   --color-money: #0a7040;
   --color-money-soft: #ddf3e6;
@@ -35,7 +38,8 @@
   --font-sans: 'Archivo Variable', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Noto Sans Tamil',
     'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Gujarati', 'Noto Sans Malayalam',
     'Noto Sans Gurmukhi', 'Noto Sans Oriya', system-ui, sans-serif;
-  --shadow-sign: 4px 4px 0 0 var(--color-asphalt);
+  --shadow-sign: 5px 5px 0 0 var(--color-asphalt);
+  --shadow-panel: 0 1px 2px rgb(22 32 43 / 0.06), 0 14px 30px -18px rgb(22 32 43 / 0.28);
 }
 
 :root {
@@ -43,9 +47,13 @@
   --text-scale: 1;
 }
 
+@layer base {
 html {
-  font-size: calc(18px * var(--text-scale));
+  font-size: calc(17px * var(--text-scale));
   -webkit-text-size-adjust: 100%;
+}
+@media (min-width: 1024px) {
+  html { font-size: calc(16px * var(--text-scale)); }
 }
 body {
   margin: 0;
@@ -54,11 +62,15 @@ body {
   font-family: var(--font-sans);
   line-height: 1.55;
 }
-h1, h2, h3 { line-height: 1.2; font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
-h1 { font-size: 1.9rem; }
-h2 { font-size: 1.55rem; }
-h3 { font-size: 1.2rem; }
-p, li { max-width: 65ch; }
+h1, h2, h3 { line-height: 1.15; font-weight: 800; letter-spacing: -0.015em; }
+h1 { font-size: 2rem; font-stretch: 100%; }
+h2 { font-size: 1.4rem; font-stretch: 95%; }
+h3 { font-size: 1.12rem; font-stretch: 95%; }
+@media (min-width: 1024px) {
+  h1 { font-size: 2.5rem; font-stretch: 108%; }
+  h2 { font-size: 1.55rem; }
+}
+p, li { max-width: 68ch; }
 a { color: var(--color-lane); text-underline-offset: 3px; }
 
 :focus-visible { outline: 3px solid var(--color-lane); outline-offset: 2px; border-radius: 4px; }
@@ -68,44 +80,91 @@ a { color: var(--color-lane); text-underline-offset: 3px; }
   background: var(--color-asphalt); color: #fff; padding: 0.75rem 1rem; border-radius: 8px;
 }
 .skip-link:focus { top: 0.5rem; }
+}
 
-/* Sign panel: the one memorable structure. */
+@layer components {
+/* Surfaces ------------------------------------------------------------- */
+/* panel: the quiet default container. */
+.panel {
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-panel);
+}
+/* sign: the one loud plate per screen (thick border, hard offset shadow). */
 .sign {
   background: var(--color-paper);
   border: 2px solid var(--color-asphalt);
-  border-radius: 14px;
+  border-radius: 20px;
   box-shadow: var(--shadow-sign);
 }
 .sign-yellow { background: var(--color-signal); }
+.sign-ink { background: var(--color-asphalt); color: #fff; }
 
+/* Buttons -------------------------------------------------------------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-  min-height: 3rem; padding: 0.6rem 1.1rem;
-  font: inherit; font-weight: 700; font-stretch: 90%;
-  border: 2px solid var(--color-asphalt); border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: 3rem; padding: 0.6rem 1.15rem;
+  font: inherit; font-weight: 700; font-stretch: 95%;
+  border: 2px solid var(--color-asphalt); border-radius: 14px;
   background: var(--color-paper); color: var(--color-asphalt);
-  box-shadow: 3px 3px 0 0 var(--color-asphalt);
-  cursor: pointer; transition: transform 80ms, box-shadow 80ms;
+  box-shadow: 0 3px 0 0 var(--color-asphalt);
+  cursor: pointer; transition: transform 90ms, box-shadow 90ms, background-color 120ms;
 }
-.btn:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--color-asphalt); }
+.btn:hover:not(:disabled) { background: var(--color-signal-soft); }
+.btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 0 0 0 var(--color-asphalt); }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 .btn-primary { background: var(--color-signal); }
+.btn-primary:hover:not(:disabled) { background: var(--color-signal-deep); }
 .btn-danger { background: var(--color-alert); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: #8f1d17; }
+.btn-ghost-light { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.55); box-shadow: none; }
+.btn-ghost-light:hover:not(:disabled) { background: rgb(255 255 255 / 0.12); }
 .btn-quiet { box-shadow: none; border-color: transparent; background: transparent; text-decoration: underline; }
+.btn-quiet:hover:not(:disabled) { background: transparent; text-decoration-thickness: 2px; }
+.btn-sm { min-height: 2.5rem; padding: 0.3rem 0.85rem; border-radius: 12px; }
 
+/* Forms ---------------------------------------------------------------- */
 .field {
-  width: 100%; min-height: 3rem; padding: 0.55rem 0.8rem; font: inherit;
+  width: 100%; min-height: 3rem; padding: 0.55rem 0.85rem; font: inherit;
   background: var(--color-paper); color: var(--color-asphalt);
-  border: 2px solid var(--color-asphalt); border-radius: 10px;
+  border: 1.5px solid #5c6877; border-radius: 12px;
+  transition: border-color 120ms, box-shadow 120ms;
 }
+.field:hover { border-color: var(--color-asphalt); }
+.field:focus-visible { outline: none; border-color: var(--color-lane); box-shadow: 0 0 0 3px var(--color-lane-soft), 0 0 0 5px var(--color-lane); }
 textarea.field { min-height: 7rem; resize: vertical; }
 .label { display: block; font-weight: 700; margin-bottom: 0.3rem; }
-.hint { color: var(--color-muted); font-size: 0.85rem; }
+.hint { color: var(--color-muted); font-size: 0.86rem; }
 .sign-yellow .hint { color: var(--color-asphalt); }
 
-.money { font-weight: 800; font-stretch: 75%; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+/* Type helpers --------------------------------------------------------- */
+.money { font-weight: 800; font-stretch: 75%; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1; }
+.stretch-wide { font-stretch: 112%; }
+.display { font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; line-height: 1.02; }
+.kicker { font-weight: 700; color: var(--color-muted); }
+
+/* Painted lane line: dashed centre-line down the sidebar edge. */
+.lane-line::after {
+  content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 5px;
+  background: repeating-linear-gradient(to bottom, var(--color-signal) 0 22px, transparent 22px 44px);
+  opacity: 0.9;
+}
+
+/* Page-title band: hairline rule under the heading with a short signal tab. */
+.title-rule { position: relative; padding-bottom: 1rem; border-bottom: 1px solid var(--color-line); }
+.title-rule::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 4.5rem; height: 4px; background: var(--color-signal); border-radius: 2px; }
+
 .skeleton { background: linear-gradient(90deg, #e4e6e1 25%, #f1f2ee 50%, #e4e6e1 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }
+}
+
 @keyframes shimmer { to { background-position: -200% 0; } }
+
+/* One orchestrated entrance, on the dashboard hero only. */
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+meter.bar, progress.bar { width: 100%; height: 0.9rem; appearance: none; border: 0; background: transparent; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -113,5 +172,5 @@ textarea.field { min-height: 7rem; resize: vertical; }
 @media print {
   .no-print { display: none !important; }
   body { background: #fff; }
-  .sign { box-shadow: none; border-color: #000; }
+  .sign, .panel { box-shadow: none; border-color: #000; }
 }

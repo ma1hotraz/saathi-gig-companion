@@ -34,9 +34,9 @@ export function actionHref(action: ChatAction): string {
 export function ActionCard({ action }: { action: ChatAction }) {
   const { t } = useI18n();
   return (
-    <div className="mt-3 rounded-xl border-2 border-asphalt bg-paper p-3">
-      <p className="text-muted">{t(`chat.action.${action.name}.hint`)}</p>
-      <Link to={actionHref(action)} className="btn btn-primary mt-2">
+    <div className="mt-3 flex flex-wrap items-center gap-3 rounded-xl border-2 border-signal-deep bg-signal-soft p-3">
+      <p className="min-w-0 flex-1 basis-48 text-asphalt">{t(`chat.action.${action.name}.hint`)}</p>
+      <Link to={actionHref(action)} className="btn btn-primary">
         {t(`chat.action.${action.name}.label`)} <ArrowRight aria-hidden="true" size={18} />
       </Link>
     </div>

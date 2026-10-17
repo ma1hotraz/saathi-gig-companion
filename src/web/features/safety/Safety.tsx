@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router';
-import { AlertTriangle, CloudRain, Flame, HandHeart, Moon, Swords, ShieldAlert, Wrench, type LucideIcon } from 'lucide-react';
+import { AlertTriangle, Check, CloudRain, Flame, HandHeart, Moon, Swords, ShieldAlert, Wrench, type LucideIcon } from 'lucide-react';
 import { SAFETY_SITUATIONS, safetySituationSchema, type SafetySituation } from '@shared/domain';
 import { useI18n } from '@/i18n';
 import { ErrorState, PageHeader, Skeleton } from '@/components/ui';
@@ -30,38 +30,44 @@ export default function Safety() {
   return (
     <>
       <PageHeader title={t('safety.title')} intro={t('safety.intro')} />
-      <section className="sign sign-yellow p-4" aria-labelledby="safety-emergency">
-        <h2 id="safety-emergency" className="mb-3 text-2xl">{t('safety.emergency')}</h2>
-        <HelplineList />
-        <div className="mt-4"><ShareLocation /></div>
-      </section>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+        <section className="sign sign-yellow rise p-5 lg:sticky lg:top-24 lg:col-span-5 lg:self-start lg:p-6 xl:col-span-4" aria-labelledby="safety-emergency">
+          <h2 id="safety-emergency" className="mb-4 text-2xl">{t('safety.emergency')}</h2>
+          <HelplineList />
+          <div className="mt-5"><ShareLocation /></div>
+        </section>
 
-      <section className="mt-8" aria-labelledby="safety-pick">
-        <h2 id="safety-pick" className="text-xl">{t('safety.pick')}</h2>
-        <div className="mt-3 grid grid-cols-2 gap-3">
-          {SAFETY_SITUATIONS.map((id) => {
-            const Icon = ICONS[id];
-            const active = id === situation;
-            return (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={active}
-                className={`btn min-h-20 flex-col !items-start !justify-start text-left ${active ? 'btn-primary' : ''}`}
-                onClick={() => setParams({ situation: id }, { replace: true })}
-              >
-                <Icon aria-hidden="true" size={28} />
-                <span>{t(`safety.situation.${id}`)}</span>
-              </button>
-            );
-          })}
-        </div>
-        <div aria-live="polite">
-          {state.status === 'loading' && <div className="mt-4"><Skeleton lines={6} /></div>}
-          {state.status === 'error' && <div className="mt-4"><ErrorState message={state.message} onRetry={retry} /></div>}
-          {state.status === 'ready' && <SituationResult result={state.result} />}
-        </div>
-      </section>
+        <section className="lg:col-span-7 xl:col-span-8" aria-labelledby="safety-pick">
+          <h2 id="safety-pick" className="text-2xl">{t('safety.pick')}</h2>
+          <p className="mt-1 text-muted">{t('safety.pick.hint')}</p>
+          <div className="mt-4 grid grid-cols-2 gap-3 xl:grid-cols-4">
+            {SAFETY_SITUATIONS.map((id) => {
+              const Icon = ICONS[id];
+              const active = id === situation;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={active}
+                  className={`relative flex min-h-28 flex-col items-start justify-between gap-3 rounded-2xl border-2 p-4 text-left font-bold ${
+                    active ? 'border-asphalt bg-signal shadow-[3px_3px_0_0_var(--color-asphalt)]' : 'border-line bg-paper hover:border-asphalt hover:bg-signal-soft'
+                  }`}
+                  onClick={() => setParams({ situation: id }, { replace: true })}
+                >
+                  <Icon aria-hidden="true" size={30} />
+                  <span className="text-lg leading-tight">{t(`safety.situation.${id}`)}</span>
+                  {active && <Check aria-hidden="true" size={22} className="absolute right-3 top-3 rounded-full bg-asphalt p-0.5 text-white" />}
+                </button>
+              );
+            })}
+          </div>
+          <div aria-live="polite">
+            {state.status === 'loading' && <div className="mt-6"><Skeleton lines={6} /></div>}
+            {state.status === 'error' && <div className="mt-6"><ErrorState message={state.message} onRetry={retry} /></div>}
+            {state.status === 'ready' && <SituationResult result={state.result} />}
+          </div>
+        </section>
+      </div>
     </>
   );
 }

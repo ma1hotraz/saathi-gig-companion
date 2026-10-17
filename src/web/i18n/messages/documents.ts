@@ -1,4 +1,15 @@
 export const en = {
+  'docs.step.add': 'Add your paper',
+  'docs.step.read': 'Read the explanation',
+  'docs.step.decide': 'Decide what to do',
+  'docs.steps.label': 'Your progress',
+  'docs.steps.progress': 'Step {n} of 3: {name}',
+  'docs.sample.title': 'No paper handy?',
+  'docs.deadlineLabel': 'Deadline',
+  'docs.beCareful': 'Be careful',
+  'docs.placeholder.title': 'Your explanation will appear here',
+  'docs.placeholder.body': 'Add a photo or PDF on the left. You will see what it means, the dates, the money and what to do next.',
+  'docs.decide.body': 'If this paper looks unfair, Saathi can turn it into a complaint letter for you.',
   'docs.sample.try': 'Try a sample notice',
   'docs.sample.hint': 'No paper handy? Use a made-up deactivation notice to see how Saathi explains a paper. It is not your data.',
   'docs.sample.download': 'Download the sample (PDF)',
@@ -40,6 +51,17 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'docs.step.add': 'अपना कागज़ डालें',
+  'docs.step.read': 'समझाई गई बात पढ़ें',
+  'docs.step.decide': 'तय करें क्या करना है',
+  'docs.steps.label': 'आप कहाँ तक पहुँचे',
+  'docs.steps.progress': 'कदम {n} में से 3: {name}',
+  'docs.sample.title': 'कागज़ पास में नहीं है?',
+  'docs.deadlineLabel': 'आखिरी तारीख',
+  'docs.beCareful': 'सावधान रहें',
+  'docs.placeholder.title': 'आपकी समझाई हुई बात यहाँ दिखेगी',
+  'docs.placeholder.body': 'बाईं ओर फोटो या PDF डालें। आपको दिखेगा कि इसका मतलब क्या है, तारीखें, पैसे और आगे क्या करना है।',
+  'docs.decide.body': 'अगर यह कागज़ अन्यायपूर्ण लगे, तो साथी इसे आपके लिए शिकायत की चिट्ठी बना सकता है।',
   'docs.sample.try': 'नमूना नोटिस आज़माएँ',
   'docs.sample.hint': 'कागज़ पास में नहीं है? एक बनावटी डिएक्टिवेशन नोटिस से देखें कि साथी कागज़ कैसे समझाता है। यह आपका डेटा नहीं है।',
   'docs.sample.download': 'नमूना डाउनलोड करें (PDF)',
@@ -81,6 +103,17 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'docs.step.add': 'ஆவணத்தைச் சேர்க்கவும்',
+  'docs.step.read': 'விளக்கத்தைப் படிக்கவும்',
+  'docs.step.decide': 'என்ன செய்வது என்று முடிவு செய்யவும்',
+  'docs.steps.label': 'உங்கள் முன்னேற்றம்',
+  'docs.steps.progress': 'படி {n} / 3: {name}',
+  'docs.sample.title': 'ஆவணம் கையில் இல்லையா?',
+  'docs.deadlineLabel': 'கடைசி தேதி',
+  'docs.beCareful': 'கவனமாக இருங்கள்',
+  'docs.placeholder.title': 'உங்கள் விளக்கம் இங்கே தெரியும்',
+  'docs.placeholder.body': 'இடப்பக்கம் புகைப்படம் அல்லது PDF-ஐச் சேர்க்கவும். இதன் பொருள், தேதிகள், பணம், அடுத்து என்ன செய்வது என்பது தெரியும்.',
+  'docs.decide.body': 'இந்த ஆவணம் நியாயமற்றதாகத் தோன்றினால், சாத்தி அதை உங்களுக்குப் புகார் கடிதமாக எழுதும்.',
   'docs.sample.try': 'மாதிரி அறிவிப்பை முயலவும்',
   'docs.sample.hint': 'ஆவணம் கையில் இல்லையா? சாத்தி ஆவணத்தை எப்படி விளக்குகிறது என்பதைப் பார்க்க, கற்பனையான கணக்கு நீக்க அறிவிப்பைப் பயன்படுத்துங்கள். இது உங்கள் தரவு அல்ல.',
   'docs.sample.download': 'மாதிரியைப் பதிவிறக்கு (PDF)',

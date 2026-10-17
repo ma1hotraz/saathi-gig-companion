@@ -65,6 +65,10 @@ export const en = {
   'earnings.ins.go': 'Explain my earnings',
   'earnings.ins.working': 'Thinking…',
   'earnings.ins.complaint': 'Payment missing? Write a complaint',
+  'earnings.nothingSaved': 'Nothing saved yet',
+  'earnings.src.manual': 'Typed',
+  'earnings.src.voice': 'Spoken',
+  'earnings.src.screenshot': 'From photo',
 };
 
 export const hi: typeof en = {
@@ -134,6 +138,10 @@ export const hi: typeof en = {
   'earnings.ins.go': 'मेरी कमाई समझाएँ',
   'earnings.ins.working': 'सोच रहे हैं…',
   'earnings.ins.complaint': 'पैसा नहीं मिला? शिकायत लिखें',
+  'earnings.nothingSaved': 'अभी कुछ सेव नहीं हुआ',
+  'earnings.src.manual': 'हाथ से लिखा',
+  'earnings.src.voice': 'बोलकर',
+  'earnings.src.screenshot': 'फ़ोटो से',
 };
 
 export const ta: typeof en = {
@@ -203,4 +211,8 @@ export const ta: typeof en = {
   'earnings.ins.go': 'என் வருமானத்தை விளக்கு',
   'earnings.ins.working': 'யோசிக்கிறோம்…',
   'earnings.ins.complaint': 'பணம் வரவில்லையா? புகார் எழுதுங்கள்',
+  'earnings.nothingSaved': 'இன்னும் எதுவும் சேமிக்கப்படவில்லை',
+  'earnings.src.manual': 'கையால் எழுதியது',
+  'earnings.src.voice': 'பேசியது',
+  'earnings.src.screenshot': 'படத்திலிருந்து',
 };

@@ -1,4 +1,7 @@
 export const en = {
+  'rights.emptyTitle': 'Your schemes will appear here',
+  'rights.emptyBody': 'Press “Find schemes for me”. Saathi reads official government pages for your state and work, then lists what you can get, the papers you need and how to apply.',
+  'rights.trust': 'Every scheme comes with its official page. Always check there before you apply.',
   'rights.title': 'Rights and schemes',
   'rights.intro': 'Find government welfare schemes that may help you, based on your work and state.',
   'rights.profile': 'Your details',
@@ -31,6 +34,9 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'rights.emptyTitle': 'आपकी योजनाएँ यहाँ दिखेंगी',
+  'rights.emptyBody': '“मेरे लिए योजनाएँ खोजें” दबाएँ। साथी आपके राज्य और काम के लिए सरकारी पन्ने पढ़ेगा, फिर बताएगा कि आपको क्या मिल सकता है, कौन से कागज़ चाहिए और कैसे आवेदन करें।',
+  'rights.trust': 'हर योजना के साथ उसका सरकारी पन्ना दिया जाता है। आवेदन से पहले वहाँ ज़रूर जाँच लें।',
   'rights.title': 'हक़ और योजनाएँ',
   'rights.intro': 'आपके काम और राज्य के हिसाब से सरकारी योजनाएँ खोजें जो आपकी मदद कर सकती हैं।',
   'rights.profile': 'आपकी जानकारी',
@@ -63,6 +69,9 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'rights.emptyTitle': 'உங்கள் திட்டங்கள் இங்கே தெரியும்',
+  'rights.emptyBody': '“எனக்கான திட்டங்களைத் தேடு” என்பதை அழுத்துங்கள். உங்கள் மாநிலம் மற்றும் வேலைக்கான அரசு பக்கங்களை சாத்தி படித்து, உங்களுக்கு என்ன கிடைக்கும், என்ன காகிதங்கள் வேண்டும், எப்படி விண்ணப்பிப்பது என்று சொல்லும்.',
+  'rights.trust': 'ஒவ்வொரு திட்டத்துடனும் அதன் அதிகாரப்பூர்வ பக்கம் இருக்கும். விண்ணப்பிக்கும் முன் அங்கே சரிபாருங்கள்.',
   'rights.title': 'உரிமைகள் மற்றும் திட்டங்கள்',
   'rights.intro': 'உங்கள் வேலை மற்றும் மாநிலத்தின் அடிப்படையில் உங்களுக்கு உதவக்கூடிய அரசு நலத் திட்டங்களைக் கண்டறியுங்கள்.',
   'rights.profile': 'உங்கள் விவரங்கள்',

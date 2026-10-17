@@ -33,3 +33,6 @@ None except: button press (offset shadow collapses), streaming text, and skeleto
 
 ## Voice
 Plain verbs, sentence case, no jargon. Buttons say what happens ("Save earning", "Write my letter"). Errors say what failed and what to do next. Empty states invite the first action.
+
+## v2 (desktop-first)
+Desktop (lg and up) is the primary layout: dark sidebar with a painted yellow lane line, a utility bar (language, settings, SOS), and 12-column page compositions with sticky secondary columns. Phones keep the yellow header and bottom tabs. Surfaces: quiet `panel` by default; exactly one loud `sign` plate per screen (key figure or primary action). Numbered steps appear only where the content is a real sequence (Papers, Complaint). No inline styles anywhere (strict CSP); bars and charts are SVG. Verified at 360, 390 and 1440 px with zero horizontal overflow and zero axe violations.

@@ -9,7 +9,7 @@ export interface WeekEarnings {
 }
 
 /** Local calendar date as YYYY-MM-DD (workers think in local days, not UTC). */
-function localDate(offsetDays: number): string {
+export function localDate(offsetDays: number): string {
   const d = new Date();
   d.setDate(d.getDate() + offsetDays);
   const pad = (n: number) => String(n).padStart(2, '0');

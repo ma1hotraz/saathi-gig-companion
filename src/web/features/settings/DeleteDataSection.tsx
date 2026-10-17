@@ -1,3 +1,4 @@
+import { Trash2, TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
 import { useI18n } from '@/i18n';
 import { useAuth } from '@/lib/auth';
@@ -31,12 +32,15 @@ export function DeleteDataSection() {
   }
 
   return (
-    <section aria-labelledby="set-delete" className="mt-8">
-      <h2 id="set-delete" className="text-xl">{t('settings.delete.title')}</h2>
+    <section aria-labelledby="set-delete" className="rounded-2xl border-2 border-alert bg-paper p-5 lg:p-6">
+      <p className="inline-flex items-center gap-2 rounded-full bg-alert px-3 py-0.5 text-sm font-bold text-white">
+        <TriangleAlert aria-hidden="true" size={16} /> {t('settings.danger.label')}
+      </p>
+      <h2 id="set-delete" className="mt-3 text-xl">{t('settings.delete.title')}</h2>
       <p className="mt-1">{t('settings.delete.body')}</p>
       {failed && <div className="mt-3"><ErrorState message={t('settings.delete.err')} /></div>}
       {!confirming ? (
-        <button type="button" className="btn mt-3 w-full" onClick={() => setConfirming(true)}>{t('settings.delete.start')}</button>
+        <button type="button" className="btn mt-4 w-full !border-alert !text-alert" onClick={() => setConfirming(true)}><Trash2 aria-hidden="true" size={20} /> {t('settings.delete.start')}</button>
       ) : (
         <div className="mt-3 rounded-xl border-2 border-alert bg-alert-soft p-3" role="group" aria-labelledby="set-delete-q">
           <p id="set-delete-q" className="font-bold">{t('settings.delete.sure')}</p>

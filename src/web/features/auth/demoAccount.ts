@@ -1,5 +1,10 @@
-/** Shared throwaway account for evaluators. It holds no real data and is shown on the sign-in page on purpose. */
-export const DEMO_ACCOUNT = {
-  email: 'judge.saathi@example.com',
-  password: 'Saathi-Judge-2026',
-} as const;
+/**
+ * Optional shared demo login for evaluators, supplied at build time through VITE_DEMO_EMAIL and
+ * VITE_DEMO_PASSWORD so no credential lives in the source code. It belongs to a throwaway account
+ * that holds no real data. When either variable is missing, the demo panel is not shown.
+ */
+const email = import.meta.env.VITE_DEMO_EMAIL;
+const password = import.meta.env.VITE_DEMO_PASSWORD;
+
+export const DEMO_ACCOUNT: { readonly email: string; readonly password: string } | null =
+  email && password ? { email, password } : null;

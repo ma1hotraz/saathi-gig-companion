@@ -1,4 +1,7 @@
 export const en = {
+  'chat.empty': 'Ask me anything about your work, money or rights.',
+  'chat.emptyHint': 'Type or speak your question below. You can also pick one of the questions to start.',
+  'chat.aside': 'Chat helpers',
   'chat.title': 'Ask Saathi',
   'chat.intro': 'Ask anything about your work, money or rights. Saathi answers in your language.',
   'chat.starters': 'Not sure what to ask? Try one of these',
@@ -29,6 +32,9 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'chat.empty': 'अपने काम, पैसे या हक़ के बारे में कुछ भी पूछें।',
+  'chat.emptyHint': 'नीचे अपना सवाल लिखें या बोलें। या शुरू करने के लिए कोई सवाल चुनें।',
+  'chat.aside': 'बातचीत के साधन',
   'chat.title': 'साथी से पूछें',
   'chat.intro': 'अपने काम, पैसे या हक़ के बारे में कुछ भी पूछें। साथी आपकी भाषा में जवाब देगा।',
   'chat.starters': 'क्या पूछें, समझ नहीं आ रहा? इनमें से कोई चुनें',
@@ -59,6 +65,9 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'chat.empty': 'உங்கள் வேலை, பணம், உரிமைகள் பற்றி எதையும் கேளுங்கள்.',
+  'chat.emptyHint': 'கீழே உங்கள் கேள்வியை எழுதுங்கள் அல்லது பேசுங்கள். தொடங்க ஒரு கேள்வியையும் தொடலாம்.',
+  'chat.aside': 'உரையாடல் உதவிகள்',
   'chat.title': 'சாத்தியிடம் கேளுங்கள்',
   'chat.intro': 'உங்கள் வேலை, பணம், உரிமைகள் பற்றி எதையும் கேளுங்கள். சாத்தி உங்கள் மொழியில் பதில் சொல்லும்.',
   'chat.starters': 'என்ன கேட்பது என்று தெரியவில்லையா? இவற்றில் ஒன்றைத் தொடுங்கள்',

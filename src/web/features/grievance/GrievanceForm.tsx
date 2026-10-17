@@ -5,6 +5,7 @@ import { INDIAN_STATES, ISSUE_TYPES, issueTypeSchema } from '@shared/domain';
 import { useI18n } from '@/i18n';
 import { SelectField, TextArea, TextField } from '@/components/ui';
 import { VoiceInput } from '@/components/VoiceInput';
+import { FormSection } from './FormSection';
 import type { FormValues } from './prefill';
 
 type FieldName = 'counterparty' | 'story' | 'incident_date' | 'amount' | 'state';
@@ -73,13 +74,13 @@ export function GrievanceForm({ initial, fromDocument, busy, onSubmit }: Props) 
   };
 
   return (
-    <form onSubmit={submit} noValidate>
-      <div className="mb-5">
-        <button type="button" className="btn" onClick={fillSample} disabled={busy}>
-          <Sparkles aria-hidden="true" size={20} />
+    <form onSubmit={submit} noValidate className="panel p-5 lg:p-8">
+      <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-chalk px-4 py-3">
+        <button type="button" className="btn btn-sm" onClick={fillSample} disabled={busy}>
+          <Sparkles aria-hidden="true" size={18} />
           {t('complaint.sample.btn')}
         </button>
-        <p className="hint mt-1">{t('complaint.sample.hint')}</p>
+        <p className="hint flex-1 basis-56">{t('complaint.sample.hint')}</p>
       </div>
       {fromDocument && <p className="mb-4 rounded-xl border-2 border-lane bg-lane-soft p-3" role="note">{t('complaint.fromDoc')}</p>}
       {errorList.length > 0 && (
@@ -89,81 +90,87 @@ export function GrievanceForm({ initial, fromDocument, busy, onSubmit }: Props) 
         </div>
       )}
 
-      <SelectField label={t('complaint.field.issue')} value={values.issue_type} onChange={(e) => set('issue_type', issueTypeSchema.catch('other').parse(e.target.value))}>
-        {ISSUE_TYPES.map((id) => <option key={id} value={id}>{t(`complaint.issue.${id}`)}</option>)}
-      </SelectField>
+      <div className="space-y-6">
+        <FormSection n={1} title={t('complaint.section.what')}>
+          <SelectField label={t('complaint.field.issue')} value={values.issue_type} onChange={(e) => set('issue_type', issueTypeSchema.catch('other').parse(e.target.value))}>
+            {ISSUE_TYPES.map((id) => <option key={id} value={id}>{t(`complaint.issue.${id}`)}</option>)}
+          </SelectField>
 
-      <TextField
-        label={t('complaint.field.counterparty')}
-        hint={errors.counterparty ?? t('complaint.field.counterpartyHint')}
-        maxLength={80}
-        value={values.counterparty}
-        aria-invalid={!!errors.counterparty}
-        onChange={(e) => set('counterparty', e.target.value)}
-      />
+          <TextField
+            label={t('complaint.field.counterparty')}
+            hint={errors.counterparty ?? t('complaint.field.counterpartyHint')}
+            maxLength={80}
+            value={values.counterparty}
+            aria-invalid={!!errors.counterparty}
+            onChange={(e) => set('counterparty', e.target.value)}
+          />
 
-      <TextField
-        type="date"
-        label={t('complaint.field.date')}
-        optional
-        hint={errors.incident_date}
-        max={today}
-        value={values.incident_date}
-        aria-invalid={!!errors.incident_date}
-        onChange={(e) => set('incident_date', e.target.value)}
-      />
+          <div className="sm:grid sm:grid-cols-2 sm:gap-4">
+            <TextField
+              type="date"
+              label={t('complaint.field.date')}
+              optional
+              hint={errors.incident_date}
+              max={today}
+              value={values.incident_date}
+              aria-invalid={!!errors.incident_date}
+              onChange={(e) => set('incident_date', e.target.value)}
+            />
+            <TextField
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={1000000}
+              label={t('complaint.field.amount')}
+              optional
+              hint={errors.amount}
+              value={values.amount}
+              aria-invalid={!!errors.amount}
+              onChange={(e) => set('amount', e.target.value)}
+            />
+          </div>
 
-      <TextField
-        type="number"
-        inputMode="decimal"
-        min={0}
-        max={1000000}
-        label={t('complaint.field.amount')}
-        optional
-        hint={errors.amount}
-        value={values.amount}
-        aria-invalid={!!errors.amount}
-        onChange={(e) => set('amount', e.target.value)}
-      />
+          <TextArea
+            label={t('complaint.field.story')}
+            hint={errors.story ?? t('complaint.field.storyHint')}
+            placeholder={t('complaint.field.storyPlaceholder')}
+            rows={7}
+            maxLength={LIMITS.storyChars}
+            value={values.story}
+            aria-invalid={!!errors.story}
+            onChange={(e) => set('story', e.target.value)}
+          />
+          <div className="-mt-2 flex flex-wrap items-center justify-between gap-3">
+            <VoiceInput
+              language={language}
+              disabled={busy}
+              onText={(text) => setValues((v) => ({ ...v, story: `${v.story} ${text}`.trim().slice(0, LIMITS.storyChars) }))}
+            />
+            <p className="hint">{t('complaint.counter', { count: values.story.length, max: LIMITS.storyChars })}</p>
+          </div>
+        </FormSection>
 
-      <TextArea
-        label={t('complaint.field.story')}
-        hint={errors.story ?? t('complaint.field.storyHint')}
-        placeholder={t('complaint.field.storyPlaceholder')}
-        rows={7}
-        maxLength={LIMITS.storyChars}
-        value={values.story}
-        aria-invalid={!!errors.story}
-        onChange={(e) => set('story', e.target.value)}
-      />
-      <div className="-mt-2 mb-4 flex flex-wrap items-center justify-between gap-3">
-        <VoiceInput
-          language={language}
-          disabled={busy}
-          onText={(text) => setValues((v) => ({ ...v, story: `${v.story} ${text}`.trim().slice(0, LIMITS.storyChars) }))}
-        />
-        <p className="hint">{t('complaint.counter', { count: values.story.length, max: LIMITS.storyChars })}</p>
+        <FormSection n={2} title={t('complaint.section.letter')}>
+          <SelectField label={t('complaint.field.state')} optional hint={errors.state} value={values.state} aria-invalid={!!errors.state} onChange={(e) => set('state', e.target.value)}>
+            <option value="">{t('common.choose')}</option>
+            {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+          </SelectField>
+
+          <fieldset>
+            <legend className="label">{t('complaint.field.letterLanguage')}</legend>
+            <div className="mt-1 flex flex-wrap gap-3">
+              {(['en', 'same'] as const).map((opt) => (
+                <label key={opt} className="flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border-2 border-asphalt bg-paper px-4">
+                  <input type="radio" name="letter_language" className="size-5" value={opt} checked={values.letter_language === opt} onChange={() => set('letter_language', opt)} />
+                  {t(`complaint.letter.${opt}`)}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </FormSection>
       </div>
 
-      <SelectField label={t('complaint.field.state')} optional hint={errors.state} value={values.state} aria-invalid={!!errors.state} onChange={(e) => set('state', e.target.value)}>
-        <option value="">{t('common.choose')}</option>
-        {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-      </SelectField>
-
-      <fieldset className="mb-5">
-        <legend className="label">{t('complaint.field.letterLanguage')}</legend>
-        <div className="mt-1 flex flex-wrap gap-3">
-          {(['en', 'same'] as const).map((opt) => (
-            <label key={opt} className="flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border-2 border-asphalt bg-paper px-4">
-              <input type="radio" name="letter_language" className="size-5" value={opt} checked={values.letter_language === opt} onChange={() => set('letter_language', opt)} />
-              {t(`complaint.letter.${opt}`)}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? t('complaint.drafting') : t('complaint.submit')}</button>
+      <button type="submit" className="btn btn-primary mt-8 w-full sm:w-auto" disabled={busy}>{busy ? t('complaint.drafting') : t('complaint.submit')}</button>
     </form>
   );
 }
-

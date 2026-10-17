@@ -1,4 +1,14 @@
 export const en = {
+  'nav.complaint': 'Complaints',
+  'nav.safety': 'Safety',
+  'nav.settings': 'Settings',
+  'account.guest': 'Guest',
+  'account.guestNote': 'Create an account in Settings to keep your data.',
+  'auth.hero.title': 'Your earnings. Your rights. Your language.',
+  'auth.hero.p1': 'Track what you really keep after costs.',
+  'auth.hero.p2': 'Understand any notice or contract in simple words.',
+  'auth.hero.p3': 'Find schemes you can claim and write a complaint in minutes.',
+  'auth.hero.scripts': 'Saathi speaks 11 Indian languages',
   'app.name': 'Saathi',
   'app.tagline': 'Your helper for work, money and rights',
   'nav.home': 'Home',
@@ -87,6 +97,16 @@ export const en = {
 };
 
 export const hi = {
+  'nav.complaint': 'शिकायतें',
+  'nav.safety': 'सुरक्षा',
+  'nav.settings': 'सेटिंग',
+  'account.guest': 'मेहमान',
+  'account.guestNote': 'डेटा सुरक्षित रखने के लिए सेटिंग में खाता बनाएँ।',
+  'auth.hero.title': 'आपकी कमाई। आपके हक़। आपकी भाषा।',
+  'auth.hero.p1': 'खर्च के बाद आपके पास असल में कितना बचता है, लिखें।',
+  'auth.hero.p2': 'कोई भी नोटिस या कॉन्ट्रैक्ट आसान शब्दों में समझें।',
+  'auth.hero.p3': 'अपनी योजनाएँ खोजें और मिनटों में शिकायत लिखें।',
+  'auth.hero.scripts': 'साथी 11 भारतीय भाषाओं में बात करता है',
   'app.tagline': 'काम, पैसे और हक़ में आपका साथी',
   'nav.home': 'होम',
   'nav.earnings': 'कमाई',
@@ -174,6 +194,16 @@ export const hi = {
 };
 
 export const ta = {
+  'nav.complaint': 'புகார்கள்',
+  'nav.safety': 'பாதுகாப்பு',
+  'nav.settings': 'அமைப்புகள்',
+  'account.guest': 'விருந்தினர்',
+  'account.guestNote': 'தரவைப் பாதுகாக்க அமைப்புகளில் கணக்கை உருவாக்குங்கள்.',
+  'auth.hero.title': 'உங்கள் வருமானம். உங்கள் உரிமைகள். உங்கள் மொழி.',
+  'auth.hero.p1': 'செலவுக்குப் பிறகு உண்மையில் எவ்வளவு மிஞ்சுகிறது என்பதைப் பதிவு செய்யுங்கள்.',
+  'auth.hero.p2': 'எந்த அறிவிப்பையும் ஒப்பந்தத்தையும் எளிய சொற்களில் புரிந்துகொள்ளுங்கள்.',
+  'auth.hero.p3': 'உங்களுக்கான திட்டங்களைக் கண்டறிந்து நிமிடங்களில் புகார் எழுதுங்கள்.',
+  'auth.hero.scripts': 'சாத்தி 11 இந்திய மொழிகளில் பேசுகிறது',
   'app.tagline': 'வேலை, பணம், உரிமைகளில் உங்கள் துணை',
   'nav.home': 'முகப்பு',
   'nav.earnings': 'வருமானம்',

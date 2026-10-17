@@ -43,6 +43,14 @@ export const en = {
   'settings.delete.start': 'Delete all my data',
   'settings.delete.sure': 'Are you sure? Everything will be deleted and you will be signed out.',
   'settings.delete.confirm': 'Yes, delete everything',
+  'home.chart.title': 'Day by day',
+  'home.chart.alt': 'What you kept each day, last 7 days: {values}',
+  'home.help.title': 'Need help now',
+  'home.help.body': 'Tap a number to call.',
+  'home.help.cta': 'Open safety help',
+  'settings.profile.title': 'Your profile',
+  'settings.danger.label': 'Danger zone',
+  'settings.account.signedIn': 'Signed in as',
 };
 
 export const hi: typeof en = {
@@ -90,6 +98,14 @@ export const hi: typeof en = {
   'settings.delete.start': 'मेरा सारा डेटा मिटाएँ',
   'settings.delete.sure': 'क्या आप पक्का चाहते हैं? सब कुछ मिट जाएगा और आप साइन आउट हो जाएँगे।',
   'settings.delete.confirm': 'हाँ, सब मिटा दें',
+  'home.chart.title': 'दिन-दिन का हिसाब',
+  'home.chart.alt': 'पिछले 7 दिनों में हर दिन आपकी बचत: {values}',
+  'home.help.title': 'अभी मदद चाहिए',
+  'home.help.body': 'फ़ोन करने के लिए नंबर दबाएँ।',
+  'home.help.cta': 'सुरक्षा मदद खोलें',
+  'settings.profile.title': 'आपकी जानकारी',
+  'settings.danger.label': 'खतरे वाला हिस्सा',
+  'settings.account.signedIn': 'इस खाते से जुड़े हैं',
 };
 
 export const ta: typeof en = {
@@ -137,4 +153,12 @@ export const ta: typeof en = {
   'settings.delete.start': 'என் எல்லா தகவலையும் அழி',
   'settings.delete.sure': 'உறுதியாக அழிக்கவா? எல்லாம் நீக்கப்பட்டு நீங்கள் வெளியேறுவீர்கள்.',
   'settings.delete.confirm': 'ஆம், எல்லாவற்றையும் அழி',
+  'home.chart.title': 'நாள் வாரியாக',
+  'home.chart.alt': 'கடந்த 7 நாட்களில் ஒவ்வொரு நாளும் உங்களுக்கு மிஞ்சியது: {values}',
+  'home.help.title': 'இப்போது உதவி வேண்டுமா',
+  'home.help.body': 'அழைக்க எண்ணைத் தொடவும்.',
+  'home.help.cta': 'பாதுகாப்பு உதவியைத் திற',
+  'settings.profile.title': 'உங்கள் விவரம்',
+  'settings.danger.label': 'ஆபத்தான பகுதி',
+  'settings.account.signedIn': 'உள்நுழைந்த கணக்கு',
 };

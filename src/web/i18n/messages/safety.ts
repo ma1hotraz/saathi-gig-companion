@@ -29,6 +29,7 @@ export const en = {
   'safety.sos.title': 'Get help now',
   'safety.sos.desc': 'Tap a number to call, or share your location with someone you trust.',
   'safety.sos.guidance': 'See safety guidance',
+  'safety.pick.hint': 'Tap what is happening. You will get steps to follow.',
 };
 
 export const hi: typeof en = {
@@ -62,6 +63,7 @@ export const hi: typeof en = {
   'safety.sos.title': 'अभी मदद लें',
   'safety.sos.desc': 'फ़ोन करने के लिए नंबर दबाएँ, या अपनी लोकेशन किसी भरोसेमंद को भेजें।',
   'safety.sos.guidance': 'सुरक्षा की सलाह देखें',
+  'safety.pick.hint': 'जो हो रहा है उसे दबाएँ। आपको करने के कदम मिलेंगे।',
 };
 
 export const ta: typeof en = {
@@ -95,4 +97,5 @@ export const ta: typeof en = {
   'safety.sos.title': 'இப்போதே உதவி பெறுங்கள்',
   'safety.sos.desc': 'அழைக்க எண்ணைத் தொடுங்கள், அல்லது நம்பிக்கையானவருக்கு உங்கள் இருப்பிடத்தை அனுப்புங்கள்.',
   'safety.sos.guidance': 'பாதுகாப்பு வழிகாட்டலைப் பார்',
+  'safety.pick.hint': 'என்ன நடக்கிறது என்பதைத் தொடவும். செய்ய வேண்டிய படிகள் கிடைக்கும்.',
 };

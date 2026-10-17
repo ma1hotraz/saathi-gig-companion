@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Camera, FileDown, FileUp, Lock, Sparkles } from 'lucide-react';
+import { FileSearch, PenLine } from 'lucide-react';
 import type { DocumentAnalysis } from '@shared/api';
 import { api, ApiRequestError } from '@/lib/api';
 import { fetchSample, SAMPLES } from '@/lib/sample';
 import { useI18n } from '@/i18n';
 import { ErrorState, PageHeader, Skeleton } from '@/components/ui';
 import { AnalysisView } from './AnalysisView';
+import { DocSteps, type DocStep } from './DocSteps';
+import { UploadPanel } from './UploadPanel';
 import { DocumentQA } from './DocumentQA';
 import { checkFile, prepareFile } from './prepareFile';
 
@@ -81,72 +83,58 @@ export default function Documents() {
     setBusy(false);
   };
 
+  const step: DocStep = analysis ? 3 : busy ? 2 : 1;
+
   return (
     <div>
       <PageHeader title={t('docs.title')} intro={t('docs.intro')} />
+      <DocSteps current={step} />
 
-      {!analysis && (
-        <section className="sign sign-yellow p-4">
-          <p className="flex items-start gap-2 font-bold">
-            <Lock aria-hidden="true" size={20} className="mt-1 shrink-0" />
-            <span>{t('docs.privacy')}</span>
-          </p>
-          <div className="mt-4 border-b-2 border-asphalt pb-4">
-            <p className="hint mb-2">{t('docs.sample.hint')}</p>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <button type="button" className="btn bg-paper" onClick={() => void trySample()} disabled={busy}>
-                <Sparkles aria-hidden="true" size={20} />
-                {t('docs.sample.try')}
-              </button>
-              <a className="inline-flex items-center gap-1 font-bold" href={SAMPLES.notice.path} download={SAMPLES.notice.filename}>
-                <FileDown aria-hidden="true" size={18} />
-                {t('docs.sample.download')}
-              </a>
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start">
+          <UploadPanel file={file} busy={busy} onPick={onPick} onAnalyse={() => void analyse()} onSample={() => void trySample()} />
+          {error && <div className="mt-4"><ErrorState message={error} onRetry={file && !busy && !analysis ? () => void analyse() : undefined} /></div>}
+        </div>
+
+        <div className="mt-8 lg:col-span-7 lg:mt-0">
+          {busy && (
+            <section className="panel p-5 lg:p-8">
+              <p className="font-bold" role="status">{t('docs.analysing')}</p>
+              <p className="hint mb-4">{t('docs.analysingHint')}</p>
+              <Skeleton lines={6} />
+            </section>
+          )}
+
+          {!busy && !analysis && (
+            <section className="rounded-2xl border-2 border-dashed border-asphalt/70 p-6 text-center lg:p-10">
+              <FileSearch aria-hidden="true" size={40} className="mx-auto" />
+              <h2 className="mt-3 text-xl">{t('docs.placeholder.title')}</h2>
+              <p className="mx-auto mt-1 text-muted">{t('docs.placeholder.body')}</p>
+            </section>
+          )}
+
+          {!busy && analysis && (
+            <div ref={resultRef} tabIndex={-1} className="rise outline-none">
+              <AnalysisView analysis={analysis} />
+              <DocumentQA analysis={analysis} />
+              <section className="sign mt-6 p-5 lg:p-6" aria-labelledby="docs-decide-title">
+                <h2 id="docs-decide-title">{t('docs.step.decide')}</h2>
+                <p className="mt-1">{t('docs.decide.body')}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  {analysis.suggest_complaint && (
+                    <button type="button" className="btn btn-primary" onClick={() => void navigate('/complaint', { state: { fromDocument: analysis } })}>
+                      <PenLine aria-hidden="true" size={20} />
+                      {t('docs.complaintCta')}
+                    </button>
+                  )}
+                  <Link to="/complaint">{t('docs.complaintLink')}</Link>
+                  <button type="button" className="btn btn-quiet" onClick={reset}>{t('docs.again')}</button>
+                </div>
+              </section>
             </div>
-          </div>
-          <div className="mt-4">
-            <label htmlFor="docs-file" className="label">{t('docs.fileLabel')}</label>
-            <input id="docs-file" type="file" accept="image/*,application/pdf" className="field bg-paper" aria-describedby="docs-file-hint" onChange={onPick} disabled={busy} />
-            <p id="docs-file-hint" className="hint mt-1">{t('docs.fileHint')}</p>
-            <label className="btn mt-3 cursor-pointer bg-paper has-[:focus-visible]:outline-3">
-              <Camera aria-hidden="true" size={20} />
-              {t('docs.camera')}
-              <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={onPick} disabled={busy} />
-            </label>
-          </div>
-          {file && <p className="mt-3 break-all font-bold" role="status">{t('docs.chosen', { name: file.name })}</p>}
-          <button type="button" className="btn btn-primary mt-4 bg-paper" onClick={() => void analyse()} disabled={busy}>
-            <FileUp aria-hidden="true" size={20} />
-            {t('docs.analyse')}
-          </button>
-        </section>
-      )}
-
-      {error && <div className="mt-4"><ErrorState message={error} onRetry={file && !busy && !analysis ? () => void analyse() : undefined} /></div>}
-
-      {busy && (
-        <div className="mt-6">
-          <p className="font-bold" role="status">{t('docs.analysing')}</p>
-          <p className="hint mb-3">{t('docs.analysingHint')}</p>
-          <Skeleton lines={6} />
+          )}
         </div>
-      )}
-
-      {analysis && (
-        <div ref={resultRef} tabIndex={-1} className="outline-none">
-          <AnalysisView analysis={analysis} />
-          <div className="mt-6 flex flex-col items-start gap-3">
-            {analysis.suggest_complaint && (
-              <button type="button" className="btn btn-primary" onClick={() => void navigate('/complaint', { state: { fromDocument: analysis } })}>
-                {t('docs.complaintCta')}
-              </button>
-            )}
-            <Link to="/complaint">{t('docs.complaintLink')}</Link>
-          </div>
-          <DocumentQA analysis={analysis} />
-          <button type="button" className="btn mt-8" onClick={reset}>{t('docs.again')}</button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

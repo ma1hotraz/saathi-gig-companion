@@ -17,6 +17,17 @@ describe('core behaviour', () => {
     expect(res.headers['x-powered-by']).toBeUndefined();
   });
 
+  it('sends a strict CSP without inline-style allowance, a permissions policy, and no-store on the API', async () => {
+    const res = await request(testApp(fakeAi())).get('/api/health');
+    const csp = String(res.headers['content-security-policy']);
+    expect(csp).toContain("style-src 'self';");
+    expect(csp).not.toContain('unsafe-inline');
+    expect(csp).not.toContain('unsafe-eval');
+    expect(csp).toContain('upgrade-insecure-requests');
+    expect(res.headers['permissions-policy']).toContain('payment=()');
+    expect(res.headers['cache-control']).toBe('no-store');
+  });
+
   it('rejects AI routes without a token (401)', async () => {
     const res = await request(testApp(fakeAi())).post('/api/safety').send({});
     expect(res.status).toBe(401);

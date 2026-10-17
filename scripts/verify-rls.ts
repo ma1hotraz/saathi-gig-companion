@@ -9,7 +9,8 @@ const url = process.env.SUPABASE_URL ?? '';
 const key = process.env.SUPABASE_ANON_KEY ?? '';
 const fresh = () => createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 
-const JUDGE = { email: 'judge.saathi@example.com', password: 'Saathi-Judge-2026' };
+const JUDGE = { email: process.env.VITE_DEMO_EMAIL ?? '', password: process.env.VITE_DEMO_PASSWORD ?? '' };
+if (!JUDGE.email || !JUDGE.password) throw new Error('Set VITE_DEMO_EMAIL and VITE_DEMO_PASSWORD in .env');
 
 function must<T>(label: string, value: T | null | undefined, error: { message: string } | null): T {
   if (error || value === null || value === undefined) throw new Error(`${label}: ${error?.message ?? 'no data'}`);
@@ -59,7 +60,7 @@ if (signin.error) {
   console.log(created.error ? `judge sign-up error: ${created.error.message}` : 'judge account created');
   signin = await judge.auth.signInWithPassword(JUDGE);
 }
-expect('judge account can sign in with email and password', !signin.error, signin.error?.message ?? JUDGE.email);
+expect('demo account can sign in with email and password', !signin.error, signin.error?.message);
 
 console.log(failures === 0 ? '\nRLS and judge-account checks passed.' : `\n${failures} check(s) failed.`);
 process.exit(failures === 0 ? 0 : 1);

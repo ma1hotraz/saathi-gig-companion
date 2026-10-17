@@ -6,7 +6,7 @@ import type { AiClient } from './ai/client.js';
 import type { EarningInput } from '../shared/domain.js';
 import { requireAuth, type AuthUser, type TokenVerifier } from './middleware/auth.js';
 import { errorHandler, notFound } from './middleware/errors.js';
-import { aiLimiter, apiLimiter, securityHeaders } from './middleware/security.js';
+import { aiLimiter, apiLimiter, noStore, permissionsPolicy, securityHeaders } from './middleware/security.js';
 import { chatRoutes } from './routes/chat.js';
 import { documentRoutes } from './routes/documents.js';
 import { earningsRoutes } from './routes/earnings.js';
@@ -32,11 +32,13 @@ export function createApp(deps: Deps): Express {
   app.disable('x-powered-by');
   app.set('trust proxy', 1); // Cloud Run terminates TLS in front of the container
   app.use(securityHeaders(deps.supabaseUrl));
+  app.use(permissionsPolicy);
   // Never buffer server-sent events.
   app.use(compression({ filter: (req, res) => !String(res.getHeader('Content-Type')).includes('text/event-stream') && compression.filter(req, res) }));
   app.use(express.json({ limit: '100kb' }));
 
   const api = express.Router();
+  api.use(noStore);
   api.use(apiLimiter);
   api.use(healthRoutes());
   api.use(requireAuth(deps.verifyToken));
