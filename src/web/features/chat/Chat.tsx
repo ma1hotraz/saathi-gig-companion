@@ -75,11 +75,13 @@ export default function Chat() {
         </div>
       )}
 
-      <ul role="log" aria-live="polite" aria-busy={streaming} aria-label={t('chat.log')} className="mb-4 space-y-3">
-        {messages.map((m, i) => (
-          <MessageView key={m.id} message={m} pending={streaming && i === lastIndex} />
-        ))}
-      </ul>
+      <div role="log" aria-live="polite" aria-busy={streaming} aria-label={t('chat.log')} className="mb-4">
+        <ul className="space-y-3">
+          {messages.map((m, i) => (
+            <MessageView key={m.id} message={m} pending={streaming && i === lastIndex} />
+          ))}
+        </ul>
+      </div>
 
       {error && (
         <div className="mb-4">

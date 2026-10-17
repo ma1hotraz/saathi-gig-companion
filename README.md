@@ -16,7 +16,7 @@ Built for PromptWars (Google for Developers × H2S). Saathi helps delivery partn
 
 ## Try it (for evaluators)
 
-1. Open the app and tap **Continue as guest** (no credentials needed), pick your language and fill the short profile.
+1. Open the app. Either tap **Continue as guest** (no credentials needed), or sign in with the shared test account **`judge.saathi@example.com`** / **`Saathi-Judge-2026`** (a throwaway account that holds no real data). Pick your language and fill the short profile.
 2. Walk through Earnings → Ask → Papers (upload `tests/fixtures/notice.pdf` or any photo of a paper) → Complaint → Rights → Safety. Every result comes from a live Gemini call.
 3. Free-tier note: the project runs on a free Gemini key, so under heavy use a request can return "Saathi is very busy right now". It retries once on a second model first; trying again after a minute works.
 
@@ -43,7 +43,8 @@ npm run test:coverage
 npm run smoke:live                                 # every Gemini capability, real API
 npx tsx --env-file=.env scripts/smoke-adapter.ts   # our adapter with the real schemas
 npx tsx --env-file=.env scripts/smoke-routes.ts    # every AI route end to end, real Gemini
-npm run build && npm run test:e2e                  # real Chrome: full journey + axe WCAG 2.2 AA scans
+npx tsx --env-file=.env scripts/verify-rls.ts     # proves one user cannot read, change or forge another user's rows
+npm run build && npm run test:e2e                  # real Chrome, live Supabase + Gemini: full journey + axe WCAG 2.2 AA scans (12 tests)
 ```
 
 ## Architecture
