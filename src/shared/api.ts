@@ -16,7 +16,7 @@ export const LIMITS = {
   chatTextChars: 2000,
   storyChars: 3000,
   questionChars: 600,
-  uploadBytes: 8 * 1024 * 1024,
+  uploadBytes: 4 * 1024 * 1024, // Vercel rejects request bodies over ~4.5 MB
   audioBytes: 2 * 1024 * 1024,
 } as const;
 

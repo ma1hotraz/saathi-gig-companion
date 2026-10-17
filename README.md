@@ -2,6 +2,8 @@
 
 Built for PromptWars (Google for Developers × H2S). Saathi helps delivery partners, drivers and daily-wage workers in India with **earnings tracking, safety, rights and welfare schemes, document help, and complaint drafting**, in their own language and in simple words. Gemini does the real work in every feature; there is no mock data and no canned output.
 
+**Live demo: https://saathi-gig-companion-mu.vercel.app**
+
 ## What it does (and where)
 
 | Challenge requirement | Feature | Real Gemini use | Code |
@@ -67,9 +69,19 @@ supabase     migration with row-level security on every table
 
 Streaming chat; a cheap model (`gemini-3.5-flash-lite`) for every call with a second cheap model as fallback; low thinking budget except for letters, documents and schemes; server-side caching for scheme and safety answers; totals computed on the server so only small summaries reach the model; images downscaled to 1600px before upload; per-route code splitting; compression and long-lived hashed assets.
 
-## Deploy (Google Cloud Run)
+## Deploy
 
-The Docker image is tested locally (healthy, non-root, no secrets in the image). The browser-side Supabase settings are public and are baked in at build time; the Gemini key is supplied only at runtime.
+**Vercel (used for the live demo).** The web app is served as static files and the Express API runs as one serverless function (`api/index.ts`, 60 s limit so AI calls and streaming chat complete). Uploads are limited to 4 MB because Vercel rejects larger request bodies.
+
+```bash
+npx vercel link --yes --project saathi-gig-companion
+# set GEMINI_API_KEY, SUPABASE_URL, SUPABASE_ANON_KEY, VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY (production + preview)
+npx vercel deploy --prod
+BASE_URL=https://<your-deployment> npm run test:e2e   # the same 12 browser tests, against the deployment
+```
+The full browser journey (sign-in, earnings, streamed chat, document upload, complaint, schemes, safety) was run against the deployed URL and passed. Rate limits and the scheme/safety caches are per function instance on Vercel, so they are best-effort there.
+
+**Docker / Cloud Run.** The image is tested locally (healthy, non-root, no secrets in it). Browser-side Supabase settings are public and baked in at build time; the Gemini key is supplied only at runtime.
 
 ```bash
 docker build -t REGION-docker.pkg.dev/PROJECT/saathi/app \
@@ -78,7 +90,7 @@ docker push REGION-docker.pkg.dev/PROJECT/saathi/app
 gcloud run deploy saathi --image REGION-docker.pkg.dev/PROJECT/saathi/app --region asia-south1 \
   --allow-unauthenticated --set-env-vars SUPABASE_URL=...,SUPABASE_ANON_KEY=...,GEMINI_API_KEY=...
 ```
-Use Secret Manager for `GEMINI_API_KEY` in any non-demo deployment. (The Cloud Run step itself has not been run from this machine because `gcloud` is not installed here.)
+(The Cloud Run step has not been run from this machine because `gcloud` is not installed here.)
 
 ## Honest limits
 

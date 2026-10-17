@@ -16,5 +16,5 @@
     "types": ["vite/client", "node"],
     "paths": { "@shared/*": ["./src/shared/*"], "@/*": ["./src/web/*"] }
   },
-  "include": ["src/shared", "src/web", "tests", "scripts", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"]
+  "include": ["src/shared", "src/web", "api", "tests", "scripts", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"]
 }

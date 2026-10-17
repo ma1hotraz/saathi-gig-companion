@@ -99,8 +99,8 @@ describe('documents', () => {
     expect(res.status).toBe(400);
   });
 
-  it('rejects files over 8MB (413)', async () => {
-    const big = Buffer.concat([fixture('notice.png'), Buffer.alloc(9 * 1024 * 1024)]);
+  it('rejects files over 4MB (413)', async () => {
+    const big = Buffer.concat([fixture('notice.png'), Buffer.alloc(5 * 1024 * 1024)]);
     const res = await request(testApp(fakeAi())).post('/api/documents/analyze').set(AUTH).field('language', 'en').attach('file', big, { filename: 'big.png', contentType: 'image/png' });
     expect(res.status).toBe(413);
   });
