@@ -18,7 +18,7 @@ Built for PromptWars (Google for Developers × H2S). Saathi helps delivery partn
 
 ## Try it (for evaluators)
 
-1. Open the app. Either tap **Continue as guest** (no credentials needed), or sign in with the shared test account **`judge.saathi@example.com`** / **`Saathi-Judge-2026`** (a throwaway account that holds no real data). Pick your language and fill the short profile.
+1. Open the app. The demo login is shown on the sign-in page with copy buttons (or tap **Fill in the demo login**). Alternatively tap **Continue as guest** (no credentials needed), or sign in with the shared test account **`judge.saathi@example.com`** / **`Saathi-Judge-2026`** (a throwaway account that holds no real data). Pick your language and fill the short profile.
 2. Walk through Earnings → Ask → Papers (upload `tests/fixtures/notice.pdf` or any photo of a paper) → Complaint → Rights → Safety. Every result comes from a live Gemini call.
 3. Free-tier note: the project runs on a free Gemini key, so under heavy use a request can return "Saathi is very busy right now". It retries once on a second model first; trying again after a minute works.
 

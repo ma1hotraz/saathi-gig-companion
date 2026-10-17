@@ -5,7 +5,7 @@ test('sign-in page is accessible and shows the three ways in', async ({ page }) 
   await page.goto('/login');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.getByRole('button', { name: /guest/i })).toBeVisible();
-  await expect(page.getByLabel(/email/i)).toBeVisible();
+  await expect(page.locator('#auth-form').getByLabel('Email')).toBeVisible();
 
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
   expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
@@ -26,4 +26,14 @@ test('the language switcher changes the interface language', async ({ page }) =>
 test('API refuses unauthenticated AI calls', async ({ request }) => {
   const res = await request.post('/api/chat', { data: { messages: [{ role: 'user', text: 'hi' }], language: 'en' } });
   expect(res.status()).toBe(401);
+});
+
+test('the demo login is on the sign-in page and really signs in', async ({ page }) => {
+  await page.goto('/login');
+  await expect(page.locator('#demo-email')).toHaveValue('judge.saathi@example.com');
+  await expect(page.locator('#demo-password')).toHaveValue('Saathi-Judge-2026');
+  await page.getByRole('button', { name: 'Fill in the demo login' }).click();
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page).toHaveURL(/\/(setup)?$/, { timeout: 30_000 });
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });

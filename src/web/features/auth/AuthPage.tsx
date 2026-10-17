@@ -4,6 +4,7 @@ import { Siren } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { useI18n } from '@/i18n';
 import { TextField, ErrorState } from '@/components/ui';
+import { DemoLogin } from './DemoLogin';
 import { LANGUAGES, languageSchema } from '@shared/domain';
 
 export default function AuthPage() {
@@ -43,6 +44,16 @@ export default function AuthPage() {
         <h1>{t('auth.title')}</h1>
         <p className="mb-5 mt-2 text-muted">{t('auth.intro')}</p>
 
+        <DemoLogin
+          onUse={(demoEmail, demoPassword) => {
+            setMode('signin');
+            setEmail(demoEmail);
+            setPassword(demoPassword);
+            setErrorKey(null);
+            document.getElementById('auth-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }}
+        />
+
         <div className="mb-5">
           <label htmlFor="auth-lang" className="label">{t('lang.label')}</label>
           <select id="auth-lang" className="field" value={language} onChange={(e) => setLanguage(languageSchema.parse(e.target.value))}>
@@ -57,7 +68,7 @@ export default function AuthPage() {
         </button>
         <p className="hint mb-6">{t('auth.guestHint')}</p>
 
-        <form onSubmit={submit} noValidate={false}>
+        <form id="auth-form" onSubmit={submit}>
           <TextField label={t('auth.email')} type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
           <TextField
             label={t('auth.password')}
