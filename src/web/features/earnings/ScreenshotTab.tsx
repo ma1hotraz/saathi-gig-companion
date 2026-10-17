@@ -1,8 +1,9 @@
 import { useId } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, FileDown, Sparkles } from 'lucide-react';
 import { LIMITS, type EarningsExtractResult } from '@shared/api';
 import { api } from '@/lib/api';
 import { useI18n } from '@/i18n';
+import { fetchSample, SAMPLES } from '@/lib/sample';
 import { downscaleImage } from './imageResize';
 import { useExtract } from './useExtract';
 
@@ -28,6 +29,14 @@ export function ScreenshotTab({ onResult }: { onResult: (r: EarningsExtractResul
     });
   }
 
+  async function trySample() {
+    try {
+      await pick(await fetchSample(SAMPLES.payout));
+    } catch {
+      setError(t('earnings.shot.sampleErr'));
+    }
+  }
+
   return (
     <div>
       <label htmlFor={inputId} className="label">{t('earnings.shot.label')}</label>
@@ -47,6 +56,16 @@ export function ScreenshotTab({ onResult }: { onResult: (r: EarningsExtractResul
         <Camera aria-hidden="true" size={14} className="mr-1 inline" />
         {t('earnings.shot.hint')}
       </p>
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+        <button type="button" className="btn" disabled={busy} onClick={() => void trySample()}>
+          <Sparkles aria-hidden="true" size={20} />
+          {t('earnings.shot.sample')}
+        </button>
+        <a className="inline-flex items-center gap-1 font-bold" href={SAMPLES.payout.path} download={SAMPLES.payout.filename}>
+          <FileDown aria-hidden="true" size={18} />
+          {t('earnings.shot.sampleDownload')}
+        </a>
+      </div>
       <p role="status" aria-live="polite" className="mt-3 font-bold">{busy ? t('earnings.reading') : ''}</p>
       <p role="alert" className="mt-1 font-bold text-alert">{error}</p>
     </div>

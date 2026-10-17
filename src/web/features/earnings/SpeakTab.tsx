@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import { LIMITS, type EarningsExtractResult } from '@shared/api';
 import { TextArea } from '@/components/ui';
 import { VoiceInput } from '@/components/VoiceInput';
@@ -25,6 +26,10 @@ export function SpeakTab({ onResult }: { onResult: (r: EarningsExtractResult) =>
       />
       <div className="flex flex-wrap items-start gap-3">
         <VoiceInput language={language} onText={append} disabled={busy} />
+        <button type="button" className="btn" disabled={busy} onClick={() => setText(t('earnings.speak.sampleText'))}>
+          <Sparkles aria-hidden="true" size={20} />
+          {t('earnings.speak.sampleBtn')}
+        </button>
         <button type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => void run((signal) => api.extractEarningsText(text.trim(), language, signal))}>
           {busy ? t('earnings.reading') : t('earnings.speak.go')}
         </button>

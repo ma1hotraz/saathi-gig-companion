@@ -1,4 +1,8 @@
 export const en = {
+  'complaint.sample.btn': 'Fill in a sample complaint',
+  'complaint.sample.hint': 'A made-up case so you can try the letter writer in one tap.',
+  'complaint.sample.counterparty': 'QuickRide Logistics',
+  'complaint.sample.story': 'On 14 October they told me my account will be deactivated from 21 October because my acceptance rate was low. They also kept my pending payout of ₹3,250 against a penalty of ₹1,500 without asking me. I want my account back and my full pending payment.',
   'complaint.title': 'Write a complaint',
   'complaint.intro': 'Tell us what happened. Saathi will write a clear letter you can send, and tell you where to file it.',
   'complaint.fromDoc': 'We filled the story from your paper. Please read it and fix anything that is wrong.',
@@ -63,6 +67,10 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'complaint.sample.btn': 'नमूना शिकायत भरें',
+  'complaint.sample.hint': 'एक बनावटी मामला, ताकि आप एक टैप में पत्र लिखने वाला देख सकें।',
+  'complaint.sample.counterparty': 'QuickRide Logistics',
+  'complaint.sample.story': '14 अक्टूबर को उन्होंने बताया कि मेरा खाता 21 अक्टूबर से बंद कर दिया जाएगा क्योंकि मेरी ऑर्डर स्वीकार करने की दर कम थी। उन्होंने मुझसे पूछे बिना मेरा बकाया भुगतान ₹3,250 भी ₹1,500 के जुर्माने में काट लिया। मुझे मेरा खाता वापस और पूरा बकाया भुगतान चाहिए।',
   'complaint.title': 'शिकायत लिखें',
   'complaint.intro': 'बताइए क्या हुआ। साथी एक साफ चिट्ठी लिख देगा, जो आप भेज सकते हैं, और बताएगा कि उसे कहाँ देनी है।',
   'complaint.fromDoc': 'हमने कहानी आपके कागज़ से भरी है। इसे पढ़ें और जो गलत हो उसे ठीक करें।',
@@ -127,6 +135,10 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'complaint.sample.btn': 'மாதிரி புகாரை நிரப்பு',
+  'complaint.sample.hint': 'ஒரு கற்பனை வழக்கு, ஒரே தட்டலில் கடிதம் எழுதும் வசதியை முயல.',
+  'complaint.sample.counterparty': 'QuickRide Logistics',
+  'complaint.sample.story': 'அக்டோபர் 14 அன்று, ஆர்டர் ஏற்கும் விகிதம் குறைவு என்பதால் என் கணக்கு அக்டோபர் 21 முதல் நீக்கப்படும் என்று சொன்னார்கள். என்னிடம் கேட்காமல் எனது நிலுவைத் தொகை ₹3,250 ஐ ₹1,500 அபராதத்துடன் கழித்துக்கொண்டனர். என் கணக்கும் முழு நிலுவைத் தொகையும் திரும்ப வேண்டும்.',
   'complaint.title': 'புகார் எழுது',
   'complaint.intro': 'என்ன நடந்தது என்று சொல்லுங்கள். சாத்தி தெளிவான கடிதம் எழுதி, அதை எங்கே கொடுக்க வேண்டும் என்றும் சொல்லும்.',
   'complaint.fromDoc': 'உங்கள் ஆவணத்திலிருந்து விவரத்தை நிரப்பியுள்ளோம். படித்துப் பார்த்து, தவறு இருந்தால் திருத்துங்கள்.',

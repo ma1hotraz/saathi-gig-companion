@@ -20,9 +20,10 @@ Built for PromptWars (Google for Developers × H2S). Saathi helps delivery partn
 
 1. Open the app. The demo login is shown on the sign-in page with copy buttons (or tap **Fill in the demo login**). Alternatively tap **Continue as guest** (no credentials needed), or sign in with the shared test account **`judge.saathi@example.com`** / **`Saathi-Judge-2026`** (a throwaway account that holds no real data). Pick your language and fill the short profile.
 2. Walk through Earnings → Ask → Papers (upload `tests/fixtures/notice.pdf` or any photo of a paper) → Complaint → Rights → Safety. Every result comes from a live Gemini call.
-3. Free-tier note: the project runs on a free Gemini key, so under heavy use a request can return "Saathi is very busy right now". It retries once on a second model first; trying again after a minute works.
+3. No paper or screenshot handy? Every input screen has a one-tap sample: **Understand my paper → Try a sample notice** (a made-up deactivation notice), **Earnings → Photo → Try a sample payout screenshot**, **Earnings → Speak → Use a sample sentence**, and **Write a complaint → Fill in a sample complaint**. They are small files served from `public/samples/` (1.7 KB PDF, 28 KB image), are clearly made-up, and go through the same real Gemini analysis as your own uploads. The sample files can also be downloaded from those screens to test the normal file picker.
+4. Free-tier note: the project runs on a free Gemini key, so under heavy use a request can return "Saathi is very busy right now". It retries once on a second model first; trying again after a minute works.
 
-Test inputs in `tests/fixtures/` (a sample payout screenshot and a sample deactivation notice) were created for testing only.
+Files in `tests/fixtures/` are for automated tests only; the demo samples live in `public/samples/`.
 
 ## Run locally
 

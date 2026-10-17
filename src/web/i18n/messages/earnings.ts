@@ -1,4 +1,9 @@
 export const en = {
+  'earnings.shot.sample': 'Try a sample payout screenshot',
+  'earnings.shot.sampleDownload': 'Download the sample (image)',
+  'earnings.shot.sampleErr': 'Could not load the sample. Please try again.',
+  'earnings.speak.sampleBtn': 'Use a sample sentence',
+  'earnings.speak.sampleText': 'Today I earned 950 rupees on Swiggy, worked 8 hours and spent 200 rupees on petrol.',
   'earnings.title': 'My earnings',
   'earnings.intro': 'Write down what you earn each day. Saathi shows how much you really keep.',
   'earnings.loadError': 'Could not load your earnings. Please check your internet and try again.',
@@ -63,6 +68,11 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'earnings.shot.sample': 'नमूना पेआउट स्क्रीनशॉट आज़माएँ',
+  'earnings.shot.sampleDownload': 'नमूना डाउनलोड करें (फोटो)',
+  'earnings.shot.sampleErr': 'नमूना नहीं खुल सका। कृपया फिर कोशिश करें।',
+  'earnings.speak.sampleBtn': 'नमूना वाक्य इस्तेमाल करें',
+  'earnings.speak.sampleText': 'आज स्विगी से 950 रुपये कमाए, 8 घंटे काम किया और पेट्रोल में 200 रुपये लगे।',
   'earnings.title': 'मेरी कमाई',
   'earnings.intro': 'हर दिन की कमाई लिखें। साथी बताएगा कि आपके हाथ में असल में कितना बचता है।',
   'earnings.loadError': 'आपकी कमाई नहीं खुल सकी। इंटरनेट जाँचें और फिर कोशिश करें।',
@@ -127,6 +137,11 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'earnings.shot.sample': 'மாதிரி பேஅவுட் ஸ்கிரீன்ஷாட்டை முயலவும்',
+  'earnings.shot.sampleDownload': 'மாதிரியைப் பதிவிறக்கு (படம்)',
+  'earnings.shot.sampleErr': 'மாதிரியை ஏற்ற முடியவில்லை. மீண்டும் முயலவும்.',
+  'earnings.speak.sampleBtn': 'மாதிரி வாக்கியத்தைப் பயன்படுத்து',
+  'earnings.speak.sampleText': 'இன்று ஸ்விகியில் 950 ரூபாய் சம்பாதித்தேன், 8 மணி நேரம் வேலை செய்தேன், பெட்ரோலுக்கு 200 ரூபாய் செலவானது.',
   'earnings.title': 'என் வருமானம்',
   'earnings.intro': 'ஒவ்வொரு நாளும் சம்பாதித்ததை எழுதுங்கள். உங்கள் கையில் உண்மையில் எவ்வளவு மிஞ்சுகிறது என்று சாத்தி காட்டும்.',
   'earnings.loadError': 'உங்கள் வருமானத்தை ஏற்ற முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.',

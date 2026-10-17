@@ -1,4 +1,5 @@
 import { useState, type SyntheticEvent } from 'react';
+import { Sparkles } from 'lucide-react';
 import { grievanceRequestSchema, LIMITS, type GrievanceRequest } from '@shared/api';
 import { INDIAN_STATES, ISSUE_TYPES, issueTypeSchema } from '@shared/domain';
 import { useI18n } from '@/i18n';
@@ -57,8 +58,29 @@ export function GrievanceForm({ initial, fromDocument, busy, onSubmit }: Props) 
 
   const errorList = Object.values(errors);
 
+  /** Fills the form with a made-up, realistic case so the letter writer can be tried in one tap. */
+  const fillSample = () => {
+    const incident = '2026-10-14';
+    setErrors({});
+    setValues((v) => ({
+      ...v,
+      issue_type: 'unfair_deactivation',
+      counterparty: t('complaint.sample.counterparty'),
+      incident_date: incident > today ? today : incident,
+      amount: '3250',
+      story: t('complaint.sample.story'),
+    }));
+  };
+
   return (
     <form onSubmit={submit} noValidate>
+      <div className="mb-5">
+        <button type="button" className="btn" onClick={fillSample} disabled={busy}>
+          <Sparkles aria-hidden="true" size={20} />
+          {t('complaint.sample.btn')}
+        </button>
+        <p className="hint mt-1">{t('complaint.sample.hint')}</p>
+      </div>
       {fromDocument && <p className="mb-4 rounded-xl border-2 border-lane bg-lane-soft p-3" role="note">{t('complaint.fromDoc')}</p>}
       {errorList.length > 0 && (
         <div role="alert" className="mb-4 rounded-xl border-2 border-alert bg-alert-soft p-4">

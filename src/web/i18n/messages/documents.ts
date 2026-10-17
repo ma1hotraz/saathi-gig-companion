@@ -1,4 +1,8 @@
 export const en = {
+  'docs.sample.try': 'Try a sample notice',
+  'docs.sample.hint': 'No paper handy? Use a made-up deactivation notice to see how Saathi explains a paper. It is not your data.',
+  'docs.sample.download': 'Download the sample (PDF)',
+  'docs.sample.err': 'Could not load the sample. Please try again.',
   'docs.title': 'Understand my paper',
   'docs.intro': 'Upload a photo or PDF of a notice, contract, payslip, insurance paper or a message from the company. Saathi explains it in simple words.',
   'docs.privacy': 'We do not store your document. It is read once and then forgotten.',
@@ -36,6 +40,10 @@ export const en = {
 };
 
 export const hi: typeof en = {
+  'docs.sample.try': 'नमूना नोटिस आज़माएँ',
+  'docs.sample.hint': 'कागज़ पास में नहीं है? एक बनावटी डिएक्टिवेशन नोटिस से देखें कि साथी कागज़ कैसे समझाता है। यह आपका डेटा नहीं है।',
+  'docs.sample.download': 'नमूना डाउनलोड करें (PDF)',
+  'docs.sample.err': 'नमूना नहीं खुल सका। कृपया फिर कोशिश करें।',
   'docs.title': 'मेरा कागज़ समझाओ',
   'docs.intro': 'नोटिस, कॉन्ट्रैक्ट, पेस्लिप, बीमा के कागज़ या कंपनी के मैसेज की फोटो या PDF डालें। साथी उसे आसान शब्दों में समझाएगा।',
   'docs.privacy': 'हम आपका कागज़ सेव नहीं करते। उसे एक बार पढ़कर भुला दिया जाता है।',
@@ -73,6 +81,10 @@ export const hi: typeof en = {
 };
 
 export const ta: typeof en = {
+  'docs.sample.try': 'மாதிரி அறிவிப்பை முயலவும்',
+  'docs.sample.hint': 'ஆவணம் கையில் இல்லையா? சாத்தி ஆவணத்தை எப்படி விளக்குகிறது என்பதைப் பார்க்க, கற்பனையான கணக்கு நீக்க அறிவிப்பைப் பயன்படுத்துங்கள். இது உங்கள் தரவு அல்ல.',
+  'docs.sample.download': 'மாதிரியைப் பதிவிறக்கு (PDF)',
+  'docs.sample.err': 'மாதிரியை ஏற்ற முடியவில்லை. மீண்டும் முயலவும்.',
   'docs.title': 'என் ஆவணத்தைப் புரிந்துகொள்ள',
   'docs.intro': 'நோட்டீஸ், ஒப்பந்தம், சம்பளச் சீட்டு, காப்பீட்டு ஆவணம் அல்லது நிறுவனத்தின் செய்தியின் புகைப்படம் அல்லது PDF-ஐப் பதிவேற்றுங்கள். சாத்தி எளிய சொற்களில் விளக்கும்.',
   'docs.privacy': 'உங்கள் ஆவணத்தை நாங்கள் சேமிப்பதில்லை. ஒருமுறை படித்தவுடன் மறந்துவிடும்.',

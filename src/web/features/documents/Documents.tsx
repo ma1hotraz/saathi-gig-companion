@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Camera, FileUp, Lock } from 'lucide-react';
+import { Camera, FileDown, FileUp, Lock, Sparkles } from 'lucide-react';
 import type { DocumentAnalysis } from '@shared/api';
 import { api, ApiRequestError } from '@/lib/api';
+import { fetchSample, SAMPLES } from '@/lib/sample';
 import { useI18n } from '@/i18n';
 import { ErrorState, PageHeader, Skeleton } from '@/components/ui';
 import { AnalysisView } from './AnalysisView';
@@ -39,8 +40,8 @@ export default function Documents() {
     setFile(picked);
   };
 
-  const analyse = async () => {
-    if (!file) {
+  const analyse = async (target: File | null = file) => {
+    if (!target) {
       setError(t('docs.err.none'));
       return;
     }
@@ -50,13 +51,25 @@ export default function Documents() {
     setBusy(true);
     setError(null);
     try {
-      const { blob, filename } = await prepareFile(file);
+      const { blob, filename } = await prepareFile(target);
       setAnalysis(await api.analyzeDocument(blob, filename, language, controller.signal));
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
       setError(err instanceof ApiRequestError ? err.message : t('common.error'));
     } finally {
       if (abort.current === controller) setBusy(false);
+    }
+  };
+
+  /** One tap: load the bundled sample notice and explain it, exactly like an uploaded file. */
+  const trySample = async () => {
+    setError(null);
+    try {
+      const sample = await fetchSample(SAMPLES.notice);
+      setFile(sample);
+      await analyse(sample);
+    } catch {
+      setError(t('docs.sample.err'));
     }
   };
 
@@ -78,6 +91,19 @@ export default function Documents() {
             <Lock aria-hidden="true" size={20} className="mt-1 shrink-0" />
             <span>{t('docs.privacy')}</span>
           </p>
+          <div className="mt-4 border-b-2 border-asphalt pb-4">
+            <p className="hint mb-2">{t('docs.sample.hint')}</p>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <button type="button" className="btn bg-paper" onClick={() => void trySample()} disabled={busy}>
+                <Sparkles aria-hidden="true" size={20} />
+                {t('docs.sample.try')}
+              </button>
+              <a className="inline-flex items-center gap-1 font-bold" href={SAMPLES.notice.path} download={SAMPLES.notice.filename}>
+                <FileDown aria-hidden="true" size={18} />
+                {t('docs.sample.download')}
+              </a>
+            </div>
+          </div>
           <div className="mt-4">
             <label htmlFor="docs-file" className="label">{t('docs.fileLabel')}</label>
             <input id="docs-file" type="file" accept="image/*,application/pdf" className="field bg-paper" aria-describedby="docs-file-hint" onChange={onPick} disabled={busy} />

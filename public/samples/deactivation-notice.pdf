@@ -1,0 +1,50 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1100 >>
+stream
+BT /F2 16 Tf 56 790 Td (QuickRide Logistics Pvt Ltd) Tj ET
+BT /F1 11 Tf 56 764 Td (Partner Support | Bengaluru) Tj ET
+BT /F1 11 Tf 56 722 Td (Date: 14 October 2026) Tj ET
+BT /F2 13 Tf 56 680 Td (Subject: Notice of account deactivation) Tj ET
+BT /F1 11 Tf 56 636 Td (Dear Partner \(ID ending 4821\),) Tj ET
+BT /F1 11 Tf 56 594 Td (Your partner account will be deactivated from 21 October 2026) Tj ET
+BT /F1 11 Tf 56 573 Td (because your order acceptance rate was below 60% for 3 weeks.) Tj ET
+BT /F1 11 Tf 56 531 Td (Your pending payout of Rs 3,250 will be adjusted against a) Tj ET
+BT /F1 11 Tf 56 510 Td (security deposit penalty of Rs 1,500. The balance of Rs 1,750) Tj ET
+BT /F1 11 Tf 56 489 Td (will be paid within 30 working days.) Tj ET
+BT /F1 11 Tf 56 447 Td (You may appeal within 3 days of this notice by writing to) Tj ET
+BT /F1 11 Tf 56 426 Td (appeals@quickride.example with your partner ID.) Tj ET
+BT /F1 11 Tf 56 384 Td (Regards,) Tj ET
+BT /F1 11 Tf 56 363 Td (Partner Support Team) Tj ET
+BT /F1 9 Tf 56 342 Td (Sample document for demo. QuickRide Logistics is a made-up company.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001403 00000 n 
+0000001473 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1548
+%%EOF
