@@ -27,7 +27,11 @@ async function check(name: string, run: () => Promise<string>) {
   try { console.log(`PASS  ${name} (${((Date.now() - t0) / 1000).toFixed(1)}s): ${await run()}`); }
   catch (e) { failed++; console.log(`FAIL  ${name}: ${e instanceof Error ? e.message.slice(0, 400) : String(e)}`); }
 }
-const ok = (res: request.Response) => { if (res.status !== 200) throw new Error(`${res.status} ${JSON.stringify(res.body).slice(0, 300)}`); return res.body as Record<string, any>; };
+type Json = Record<string, unknown> & { entries: unknown; stats: unknown; insights: unknown; do_now: string[]; sources: Array<{ url: string }>; schemes: Array<{ name: string; official_url: string | null }>; document_type: string; deadlines: unknown; suggest_complaint: unknown; answer: unknown; letter: string; where_to_file: unknown[] };
+const ok = (res: request.Response): Json => {
+  if (res.status !== 200) throw new Error(`${res.status} ${JSON.stringify(res.body).slice(0, 300)}`);
+  return res.body as Json;
+};
 
 await check('POST /api/earnings/extract-text (Hinglish)', async () => {
   const b = ok(await request(app).post('/api/earnings/extract-text').set(auth).send({ text: 'kal Zomato se 640 kamaye, 7 ghante, petrol 150', language: 'hi' }));
@@ -51,7 +55,7 @@ await check('POST /api/schemes (Kannada, grounded)', async () => {
 });
 await check('POST /api/documents/analyze (PDF notice)', async () => {
   const b = ok(await request(app).post('/api/documents/analyze').set(auth).field('language', 'en').attach('file', fx('notice.pdf'), 'n.pdf'));
-  return `${b.document_type} | deadlines=${JSON.stringify(b.deadlines)} | complaint=${b.suggest_complaint}`;
+  return `${b.document_type} | deadlines=${JSON.stringify(b.deadlines)} | complaint=${JSON.stringify(b.suggest_complaint)}`;
 });
 await check('POST /api/documents/ask', async () => {
   const analysis = ok(await request(app).post('/api/documents/analyze').set(auth).field('language', 'en').attach('file', fx('notice.png'), 'n.png'));
@@ -60,7 +64,7 @@ await check('POST /api/documents/ask', async () => {
 });
 await check('POST /api/grievance/draft (English letter, Hindi summary)', async () => {
   const b = ok(await request(app).post('/api/grievance/draft').set(auth).send({ issue_type: 'unfair_deactivation', counterparty: 'QuickRide Logistics', incident_date: '2026-10-14', amount: 3250, story: 'They deactivated my account without notice and kept my pending payout of 3250 rupees against a penalty.', state: 'Delhi', language: 'hi', letter_language: 'en' }));
-  return `letter ${String(b.letter).length} chars, starts: ${String(b.letter).slice(0, 90).replace(/\n/g, ' ')} | where=${b.where_to_file.length}`;
+  return `letter ${b.letter.length} chars, starts: ${b.letter.slice(0, 90).replace(/\n/g, ' ')} | where=${b.where_to_file.length}`;
 });
 await check('POST /api/chat (SSE stream + action card)', async () => {
   const res = await request(app).post('/api/chat').set(auth).send({ messages: [{ role: 'user', text: 'Zomato ne mera 2000 rupaye 3 hafte se nahi diya. Mujhe shikayat likhni hai.' }], language: 'hi', includeEarningsContext: true });

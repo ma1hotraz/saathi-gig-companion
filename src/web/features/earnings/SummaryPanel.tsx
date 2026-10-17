@@ -6,7 +6,7 @@ import { formatRupees } from './dates';
 export function SummaryPanel({ summary }: { summary: EarningsSummary }) {
   const { t } = useI18n();
   return (
-    <section className="sign sign-yellow" aria-labelledby="sum-h">
+    <section className="sign sign-yellow p-5" aria-labelledby="sum-h">
       <h2 id="sum-h" className="text-xl">{t('earnings.sum.title')}</h2>
       <p className="money text-6xl leading-tight">{formatRupees(summary.net)}</p>
       <p className="font-bold">{t('earnings.sum.net')}</p>

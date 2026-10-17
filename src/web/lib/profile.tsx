@@ -27,21 +27,26 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { language, setLanguage } = useI18n();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Which user's profile has been fetched. Loading stays true until it matches the signed-in user,
+  // so the route guard never sees "no profile" in the gap between sign-in and the first fetch.
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
+  const loading = user !== null && loadedFor !== user.id;
+  const userId = user?.id ?? null;
 
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       setProfile(null);
-      setLoading(false);
+      setLoadedFor(null);
       return;
     }
-    setLoading(true);
+    let cancelled = false;
     void supabase
       .from('profiles')
       .select('display_name,language,state,work_type,age_band,income_band')
-      .eq('id', user.id)
+      .eq('id', userId)
       .maybeSingle()
       .then(({ data }) => {
+        if (cancelled) return;
         const parsed = profileSchema.safeParse(data);
         if (parsed.success) {
           setProfile(parsed.data);
@@ -49,9 +54,12 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
         } else {
           setProfile(null);
         }
-        setLoading(false);
+        setLoadedFor(userId);
       });
-  }, [user, setLanguage]);
+    return () => {
+      cancelled = true;
+    };
+  }, [userId, setLanguage]);
 
   const save = useCallback(
     async (next: Profile): Promise<string | null> => {

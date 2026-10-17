@@ -50,7 +50,7 @@ export function ReviewEntries({ transcript, drafts, onChange, onDiscard, onSave 
   }
 
   return (
-    <section className="sign mt-5" aria-labelledby="review-h">
+    <section className="sign mt-5 p-4" aria-labelledby="review-h">
       <h2 id="review-h" className="text-2xl">{t('earnings.review.title')}</h2>
       <p className="mt-1 text-muted">{t('earnings.review.body')}</p>
       {transcript && <p className="hint mt-2">{t('earnings.heard', { text: transcript })}</p>}

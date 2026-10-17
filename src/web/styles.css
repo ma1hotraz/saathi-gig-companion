@@ -101,6 +101,7 @@ a { color: var(--color-lane); text-underline-offset: 3px; }
 textarea.field { min-height: 7rem; resize: vertical; }
 .label { display: block; font-weight: 700; margin-bottom: 0.3rem; }
 .hint { color: var(--color-muted); font-size: 0.85rem; }
+.sign-yellow .hint { color: var(--color-asphalt); }
 
 .money { font-weight: 800; font-stretch: 75%; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .skeleton { background: linear-gradient(90deg, #e4e6e1 25%, #f1f2ee 50%, #e4e6e1 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }

@@ -2,7 +2,7 @@
   "name": "saathi",
   "version": "1.0.0",
   "private": true,
-  "description": "Saathi — a GenAI-powered, multilingual companion for gig and informal workers (earnings, safety, rights & schemes, documents, grievances).",
+  "description": "Saathi \u2014 a GenAI-powered, multilingual companion for gig and informal workers (earnings, safety, rights & schemes, documents, grievances).",
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -85,5 +85,8 @@
     "typescript-eslint": "8.71.0",
     "vite": "8.3.2",
     "vitest": "5.0.3"
+  },
+  "overrides": {
+    "playwright-core": "1.56.0"
   }
 }
