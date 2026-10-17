@@ -66,12 +66,16 @@ Streaming chat; a cheap model (`gemini-3.5-flash-lite`) for every call with a se
 
 ## Deploy (Google Cloud Run)
 
+The Docker image is tested locally (healthy, non-root, no secrets in the image). The browser-side Supabase settings are public and are baked in at build time; the Gemini key is supplied only at runtime.
+
 ```bash
-gcloud run deploy saathi --source . --region asia-south1 --allow-unauthenticated \
-  --set-env-vars GEMINI_API_KEY=...,SUPABASE_URL=...,SUPABASE_ANON_KEY=... \
-  --build-env-vars-file build.env   # VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY for the Docker build
+docker build -t REGION-docker.pkg.dev/PROJECT/saathi/app \
+  --build-arg VITE_SUPABASE_URL=... --build-arg VITE_SUPABASE_ANON_KEY=... .
+docker push REGION-docker.pkg.dev/PROJECT/saathi/app
+gcloud run deploy saathi --image REGION-docker.pkg.dev/PROJECT/saathi/app --region asia-south1 \
+  --allow-unauthenticated --set-env-vars SUPABASE_URL=...,SUPABASE_ANON_KEY=...,GEMINI_API_KEY=...
 ```
-Use Secret Manager for `GEMINI_API_KEY` in any non-demo deployment.
+Use Secret Manager for `GEMINI_API_KEY` in any non-demo deployment. (The Cloud Run step itself has not been run from this machine because `gcloud` is not installed here.)
 
 ## Honest limits
 
